@@ -14,6 +14,18 @@ public class Player : MonoBehaviour
     public bool isGrounded1 = false;
     public bool isGrounded2 = false;
 
+    public ChildCollision[] children;
+
+    private void Start()
+    {
+        children = GetComponentsInChildren<ChildCollision>();
+        
+        foreach(ChildCollision child in children)
+        {
+            child.OnChildCollisionEnter += HandleChildCollision;
+        }
+    }
+
     private void Update()
     {
         MoveObject(rb1, KeyCode.W, KeyCode.A, KeyCode.D, ref isGrounded1);
@@ -29,12 +41,23 @@ public class Player : MonoBehaviour
         if (Input.GetKey(right))
             moveDirection.x += 1;
 
-        rb.velocity = moveDirection.normalized * moveSpeed;
-
         if (Input.GetKey(up) && isGrounded == true)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
+        }
+
+        rb.velocity = new Vector2(moveDirection.normalized.x * moveSpeed, rb.velocity.y);
+    }
+
+    private void HandleChildCollision(Collision2D collision, GameObject gameObject)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            if(gameObject.name == "Red")
+                isGrounded1 = true;
+            if(gameObject.name == "Blue")
+                isGrounded2 = true;
         }
     }
 
@@ -45,19 +68,14 @@ public class Player : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Ground"))
             {
-                // 충돌 지점이 오브젝트 아래쪽이면 바닥 충돌로 간주
                 foreach (ContactPoint2D contact in collision.contacts)
                 {
-                    if (contact.point.y < collision.otherCollider.transform.position.y)
-                    {
-                        if (collision.otherCollider.gameObject == rb1.gameObject)
-                            isGrounded1 = true;
-                        else if (collision.otherCollider.gameObject == rb2.gameObject)
-                            isGrounded2 = true;
-                    }
+                    if (collision.otherCollider.gameObject == rb1.gameObject)
+                        isGrounded1 = true;
+                    else if (collision.otherCollider.gameObject == rb2.gameObject)
+                        isGrounded2 = true;
                 }
             }
         }
     }
-
 }
