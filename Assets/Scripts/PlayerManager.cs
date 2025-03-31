@@ -7,16 +7,15 @@ public class PlayerManager : MonoBehaviour
 {
     private static PlayerManager _instance;
 
+    private PlayerManager() { }
+
     public static PlayerManager Instance
     {
         get
         {
             if(_instance == null)
             {
-                _instance = FindObjectOfType(typeof(PlayerManager)) as PlayerManager;
-
-                if (_instance == null)
-                    Debug.Log("No Player Manager");
+                _instance = new PlayerManager();
             }
 
             return _instance;
@@ -25,10 +24,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        if(_instance == null)
-            _instance = this;
+        DataManager.Instance.LoadDatas("asd");
     }
-
-    private ePlayerState _state { get; set; };
+    private ePlayerState _state { get; set; }
 
 }
