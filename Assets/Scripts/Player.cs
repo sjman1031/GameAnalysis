@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,6 +8,9 @@ public class Player : MonoBehaviour
 
     public float moveSpeed = 5f;
     public float jumpForce = 7f;
+
+    public ePlayerState playerState1;
+    public ePlayerState playerState2;
 
     public bool isJumping1 = false;
     public bool isJumping2 = false;
@@ -33,22 +35,22 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        MoveObject(rb1, KeyCode.W, KeyCode.A, KeyCode.D, ref isJumping1);
-        MoveObject(rb2, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.RightArrow, ref isJumping2);
+        MoveObject(rb1, KeyCode.W, KeyCode.A, KeyCode.D, ref playerState1);
+        MoveObject(rb2, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.RightArrow, ref playerState2);
 
-        if(CheckOnAir(rb1) || CheckOnAir(rb2))
-        {
-            groundJoint.enabled = false;    
-            onAirJoint.enabled  = true;
-        }
-        else
-        {
-            groundJoint.enabled = true;
-            onAirJoint.enabled  = false;
-        }
+        //if(playerState1 == ePlayerState.OnAir || playerState2 == ePlayerState.OnAir)
+        //{
+        //    groundJoint.enabled = false;    
+        //    onAirJoint.enabled  = true;
+        //}
+        //else
+        //{
+        //    groundJoint.enabled = true;
+        //    onAirJoint.enabled  = false;
+        //}
     }
 
-    void MoveObject(Rigidbody2D rb, KeyCode up, KeyCode left, KeyCode right, ref bool isJumping)
+    void MoveObject(Rigidbody2D rb, KeyCode up, KeyCode left, KeyCode right, ref ePlayerState playerState)
     {
         Vector2 moveDirection = Vector2.zero;
 
@@ -57,18 +59,13 @@ public class Player : MonoBehaviour
         if (Input.GetKey(right))
             moveDirection.x += 1;
 
-        if (Input.GetKey(up) && isJumping == false)
+        if (Input.GetKey(up) && playerState != ePlayerState.Jump && playerState != ePlayerState.OnAir)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJumping = true;
+            playerState = ePlayerState.Jump;
         }
 
         rb.velocity = new Vector2(moveDirection.normalized.x * moveSpeed, rb.velocity.y);
-    }
-
-    private bool CheckOnAir(Rigidbody2D rb1)
-    {
-        return false;
     }
 
     private void IsObjectOnGround(Collision2D collision, GameObject gameObject)
@@ -76,9 +73,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player") 
         {
             if(gameObject.name == "Red")
-                isJumping1 = false;
+                playerState1 = ePlayerState.Idle;
             if(gameObject.name == "Blue")
-                isJumping2 = false;
+                playerState2 = ePlayerState.Idle;
         }
+
     }
+
+    
 }

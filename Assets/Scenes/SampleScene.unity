@@ -391,6 +391,8 @@ MonoBehaviour:
   rb2: {fileID: 1041010696}
   moveSpeed: 5
   jumpForce: 7
+  playerState1: 0
+  playerState2: 0
   isJumping1: 0
   isJumping2: 0
   children: []
@@ -567,7 +569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b10050ddc82eb409bed38aee1a6e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: 0
 --- !u!1 &1175733068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b10050ddc82eb409bed38aee1a6e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: 0
 --- !u!232 &2028440398
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -1064,7 +1064,7 @@ DistanceJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028440391}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1041010696}
@@ -1084,7 +1084,7 @@ SpringJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028440391}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 1041010696}
@@ -1095,7 +1095,7 @@ SpringJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
-  m_Distance: 10
+  m_Distance: 3
   m_DampingRatio: 0.3
   m_Frequency: 1
 --- !u!1660057539 &9223372036854775807

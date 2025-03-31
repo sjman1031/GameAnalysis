@@ -6,6 +6,7 @@ namespace Enums
         Idle,
         Walk,
         Run,
+        Jump,
         OnAir,
     }
 }
