@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     {
         DataManager.Instance.LoadDatas("asd");
     }
+
     private ePlayerState _state { get; set; }
 
 }
