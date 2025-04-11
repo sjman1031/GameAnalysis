@@ -1,32 +1,26 @@
+using Enums;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enums;
 
 public class PlayerManager : MonoBehaviour
 {
-    private static PlayerManager _instance;
-
-    private PlayerManager() { }
-
-    public static PlayerManager Instance
-    {
-        get
-        {
-            if(_instance == null)
-            {
-                _instance = new PlayerManager();
-            }
-
-            return _instance;
-        }    
-    }
+    public static PlayerManager Instance;
 
     private void Awake()
     {
-        DataManager.Instance.LoadDatas("asd");
+        //if(Instance == null) Instance = this;
+        //else Destroy(gameObject);
     }
+   
 
-    private ePlayerState _state { get; set; }
+    public ePlayerState playerState { get; set; }
+    
+    public event Action<Collision2D, GameObject> OnChildCollisionEnter;
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnChildCollisionEnter?.Invoke(collision, this.gameObject);
+    }
 }

@@ -1,7 +1,7 @@
 using Enums;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb1; // WASD로 움직일 오브젝트의 Rigidbody2D
     public Rigidbody2D rb2; // 방향키로 움직일 오브젝트의 Rigidbody2D
@@ -15,19 +15,19 @@ public class Player : MonoBehaviour
     public bool isJumping1 = false;
     public bool isJumping2 = false;
 
-    public ChildCollision[] children;
+    public PlayerManager[] children;
 
     public DistanceJoint2D  groundJoint;
     public SpringJoint2D    onAirJoint;
 
     private void Start()
     {
-        children    = GetComponentsInChildren<ChildCollision>();
+        children    = GetComponentsInChildren<PlayerManager>();
 
         groundJoint = GetComponentInChildren<DistanceJoint2D>();
         onAirJoint  = GetComponentInChildren<SpringJoint2D>();
         
-        foreach(ChildCollision child in children)
+        foreach(PlayerManager child in children)
         {
             child.OnChildCollisionEnter += IsObjectOnGround;
         }
@@ -38,15 +38,15 @@ public class Player : MonoBehaviour
         MoveObject(rb1, KeyCode.W, KeyCode.A, KeyCode.D, ref playerState1);
         MoveObject(rb2, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.RightArrow, ref playerState2);
 
-        //if(playerState1 == ePlayerState.OnAir || playerState2 == ePlayerState.OnAir)
+        //if (playerState1 == ePlayerState.Jump || playerState2 == ePlayerState.Jump)
         //{
-        //    groundJoint.enabled = false;    
-        //    onAirJoint.enabled  = true;
+        //    groundJoint.enabled = false;
+        //    onAirJoint.enabled = true;
         //}
         //else
         //{
         //    groundJoint.enabled = true;
-        //    onAirJoint.enabled  = false;
+        //    onAirJoint.enabled = false;
         //}
     }
 
@@ -77,8 +77,5 @@ public class Player : MonoBehaviour
             if(gameObject.name == "Blue")
                 playerState2 = ePlayerState.Idle;
         }
-
-    }
-
-    
+    }    
 }

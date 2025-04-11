@@ -384,7 +384,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 739810726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da2cefd8cf718eb4798f42f3b985b85a, type: 3}
+  m_Script: {fileID: 11500000, guid: 677395f3f665b6e40a9de9d72a269aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb1: {fileID: 2028440395}
@@ -479,7 +479,7 @@ Transform:
   m_GameObject: {fileID: 1041010692}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalPosition: {x: 2.93, y: -2.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -546,7 +546,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 4710ade4303b111459117b0c10c8c998, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -556,7 +556,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &1041010697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +837,7 @@ MonoBehaviour:
   endPos: {fileID: 1041010694}
   curveResolution: 20
   curveHeight: 0.5
-  lineRenderer: {fileID: 0}
+  lineRenderer: {fileID: 1738451127}
 --- !u!4 &1738451129
 Transform:
   m_ObjectHideFlags: 0
@@ -896,9 +896,8 @@ GameObject:
   - component: {fileID: 2028440392}
   - component: {fileID: 2028440395}
   - component: {fileID: 2028440394}
-  - component: {fileID: 2028440398}
-  - component: {fileID: 2028440399}
   - component: {fileID: 2028440397}
+  - component: {fileID: 2028440398}
   m_Layer: 0
   m_Name: Red
   m_TagString: Player
@@ -967,7 +966,7 @@ Transform:
   m_GameObject: {fileID: 2028440391}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1034,7 +1033,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 4710ade4303b111459117b0c10c8c998, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1044,7 +1043,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &2028440397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,28 +1056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b10050ddc82eb409bed38aee1a6e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!232 &2028440398
-DistanceJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028440391}
-  m_Enabled: 0
-  serializedVersion: 4
-  m_EnableCollision: 1
-  m_ConnectedRigidBody: {fileID: 1041010696}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 6
-  m_MaxDistanceOnly: 1
---- !u!231 &2028440399
-SpringJoint2D:
+--- !u!233 &2028440398
+HingeJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1091,13 +1070,17 @@ SpringJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 3
-  m_DampingRatio: 0.3
-  m_Frequency: 1
+  m_ConnectedAnchor: {x: -2.93, y: 2.34}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 180
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
