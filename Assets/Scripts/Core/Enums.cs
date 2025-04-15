@@ -7,6 +7,5 @@ namespace Enums
         Walk,
         Run,
         Jump,
-        OnAir,
     }
 }

@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     
     public event Action<Collision2D, GameObject> OnChildCollisionEnter;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         OnChildCollisionEnter?.Invoke(collision, this.gameObject);
     }
