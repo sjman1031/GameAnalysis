@@ -80,14 +80,14 @@ public class PlayerController : MonoBehaviour
 
         //rb.velocity = new Vector2(moveDirection.normalized.x * moveSpeed, rb.velocity.y); 
 
-        float moveInput = 0f;
+        float moveDirction = 0f;
         
         if (Input.GetKey(left))
-            moveInput = -1f;
+            moveDirction = -1f;
         if (Input.GetKey(right))
-            moveInput = 1f;
+            moveDirction = 1f;
 
-        float desiredSpeed = moveInput * moveSpeed;
+        float desiredSpeed = moveDirction * moveSpeed;
         float currentSpeed = rb.velocity.x;
 
         float speedDiff = desiredSpeed - currentSpeed;
