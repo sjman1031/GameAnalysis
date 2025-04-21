@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RopeRenderer : MonoBehaviour
 {
+    // 변경
+
     public Transform startPos;  // 시작점(Red)
     public Transform endPos;    // 끝점(Blue)
 
