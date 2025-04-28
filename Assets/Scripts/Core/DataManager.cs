@@ -14,7 +14,13 @@ public class DataManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void LoadDatas(string dataPath)
+    public void SaveData()
+    {
+
+    }
+
+
+    public void LoadData(string dataPath)
     {
         var json = Resources.Load<TextAsset>(dataPath).text;
     }
