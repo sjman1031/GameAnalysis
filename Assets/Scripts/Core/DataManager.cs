@@ -1,27 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.IO;
+using System.Net;
 using Newtonsoft.Json;
-using System.Linq;
+using UnityEngine;
 
-public class DataManager : MonoBehaviour
+public class DataManager
 {
-    public static DataManager Instance;
-
-    private void Awake()
+    private static DataManager _instance;
+    public static DataManager Instance
     {
-        if(Instance == null) Instance = this;
-        else Destroy(gameObject);
+        get
+        {
+            if (_instance == null)
+                _instance = new DataManager();
+
+            return _instance;
+        }
     }
 
-    public void SaveData()
+    private string SavePath(string fileName)
     {
+        string directoryPath = Path.Combine(Application.dataPath, "Resources/Datas");
 
+        // 폴더가 없으면 생성
+        if (!Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
+
+        return Path.Combine(directoryPath, fileName + ".json");
     }
 
-
-    public void LoadData(string dataPath)
+    public void SaveData<T>(T data, string fileName)
     {
-        var json = Resources.Load<TextAsset>(dataPath).text;
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        File.WriteAllText(SavePath(fileName), json);
+
+        // 저장 한 후, 에디터에서는 파일 새로고침 필요
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
+    }
+
+    public T LoadData<T>(string fileName)
+    {
+        // Resources/Datas 경로에서 불러오기 
+        string resourcePath = Path.Combine("Datas", fileName);
+        TextAsset textAsset = Resources.Load<TextAsset>(resourcePath.Replace("\\", "/"));
+
+        if (textAsset == null)
+        {
+            Debug.LogWarning($"로드 실패: Resources/Datas/{fileName}.json 파일이 없습니다.");
+            return default(T);
+        }
+
+        return JsonConvert.DeserializeObject<T>(textAsset.text);
+
+
     }
 }
