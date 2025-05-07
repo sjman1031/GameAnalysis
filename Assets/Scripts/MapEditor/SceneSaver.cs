@@ -1,52 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-
-[Serializable]
-public class ObjectData
-{
-    public string prefabName;   // Resources에서 로드할 prefab 이름 
-    public string instanceName; // Scene에 생성될 object 이름
-
-    // Vector3는 내부에 있는 normalized 같은 프로퍼티가 담겨있는 복잡한 타입
-    // 이런 Vector3를 그대로 직렬화 하려하면 무한 참조에 빠짐
-    // 따라서 Vector3를 그대로 Newtonsoft.Json 에 넣으면 안됨
-    // 그래서 이런식으로 X, Y, Z 값을 분해해서 넣을 필요가 있음
-    public float posX;
-    public float posY;
-    public float posZ;
-
-    public float rotX;
-    public float rotY;
-    public float rotZ;
-
-    public float scaleX;
-    public float scaleY;
-    public float scaleZ;
-}
-
-[Serializable]
-public class MapData
-{
-    public string mapName;
-    public List<ObjectData> objects;
-}
-
-[Serializable]
-public class MapDataBase
-{
-    public List<MapData> maps = new List<MapData>();
-}
 
 public class SceneSaver : MonoBehaviour
 {
     private const string MAPS_FILE = "MapsData";
-
-    [Header("제외할 Object 이름들")]
-    public List<string> excludeNames = new List<string> { "SceneSaver", "Main Camera", "SaveButton", "LoadButton" };
-
     // Scene을 MapData로 변환
     private MapData CreateMapData(string mapName)
     {
@@ -63,7 +24,7 @@ public class SceneSaver : MonoBehaviour
 
             ObjectData data = new ObjectData()
             {
-                prefabName      = prefabName,
+                prefabName      = obj.GetComponent<Saveable>().prefabName,
                 instanceName    = obj.name,
 
                 posX = obj.transform.position.x,
@@ -117,7 +78,7 @@ public class SceneSaver : MonoBehaviour
             GameObject prefab = Resources.Load<GameObject>("Prefabs/" + data.prefabName);
             if (prefab != null)
             {
-                GameObject obj = GameObject.Instantiate(prefab);
+                GameObject obj = Instantiate(prefab);
                 obj.name = data.instanceName;
                 obj.transform.position      = new Vector3(data.posX, data.posY, data.posZ);
                 obj.transform.eulerAngles   = new Vector3(data.rotX, data.rotY, data.rotZ);
@@ -169,12 +130,11 @@ public class SceneSaver : MonoBehaviour
     private bool ShouldSaveObject(GameObject obj)
     {
         // 필수 조건
-        if (obj.GetComponent<MapSaveable>() == null) return false;
+        if (obj.GetComponent<Saveable>() == null) return false;
 
         // 추가 조건
         if (obj.hideFlags == HideFlags.NotEditable || obj.hideFlags == HideFlags.HideAndDontSave) return false;
         if (!obj.activeInHierarchy) return false;
-        if (excludeNames.Contains(obj.name)) return false;
         if (obj.scene.name != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name) return false;
 
         return true;
