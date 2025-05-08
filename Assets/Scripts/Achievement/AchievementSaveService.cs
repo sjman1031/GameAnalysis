@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class AchievementSaveService
@@ -22,5 +23,11 @@ public class AchievementSaveService
         }
 
         return loaded;
+    }
+
+    public static void Delete()
+    {
+        string path = Path.Combine(Application.persistentDataPath, FILE_NAME + ".json");
+        if(File.Exists(path)) File.Delete(path);
     }
 }

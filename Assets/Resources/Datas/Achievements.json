@@ -1,5 +1,14 @@
 {
-  "achievements": [],
-  "name": "",
-  "hideFlags": 0
+  "achievements": [
+    {
+      "id": "asdf",
+      "title": "asdf",
+      "description": "asdf",
+      "icon": null,
+      "conditionType": 1,
+      "requiredCount": 1,
+      "currentCount": 0,
+      "isUnlocked": false
+    }
+  ]
 }

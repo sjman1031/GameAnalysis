@@ -8,49 +8,37 @@ public class AchievementManager : MonoBehaviour
     [Header("업적 데이터베이스")]
     public AchievementDataBase achievementdata;
 
-    public void AddProgress(string achievementID, int value = 1)
+    private void Awake()
     {
-        var achievement = achievementdata.achievements.Find(a => a.id == achievementID);
-        if (achievement == null) return;
-        if (achievement.isUnlocked) return;
-
-        achievement.currentCount += value;
-
-        if(achievement.currentCount >= achievement.requiredCount)
-        {
-            achievement.isUnlocked = true;
-            Debug.Log($"업적 달성: {achievement.title}");
-
-            // TODO 
-            // InGame 연출
-        }
-    }
-
-    public void ResetAllAchievements()
-    {
-        foreach(var a in achievementdata.achievements)
-        {
-            a.currentCount = 0;
-            a.isUnlocked= false;
-        }
+        achievementdata = AchievementSaveService.Load();
     }
 
     public void ReportCondition(AchievementConditionType condition, int value = 1)
     {
         foreach (var a in achievementdata.achievements)
         {
-            if (a.isUnlocked) continue;
-            if (a.conditionType != condition) continue;
-            a.currentCount += value;
+            if (a.isUnlocked || a.conditionType != condition) continue;
 
-            if (a.currentCount >= a.requiredCount)
+            a.currentCount += value;
+            if(a.currentCount >= a.requiredCount)
             {
                 a.isUnlocked = true;
                 Debug.Log($"업적 달성: {a.title}");
-
-                // TODO 
-                // InGame 연출
             }
+        }
+    }
+
+    public void SaveAchievements()
+    {
+        AchievementSaveService.Save(achievementdata);
+    }
+
+    public void ResetAll()
+    {
+        foreach(var a in achievementdata.achievements)
+        {
+            a.currentCount = 0;
+            a.isUnlocked = false;
         }
     }
 }

@@ -10,11 +10,12 @@ public class AchievementEditorUI : MonoBehaviour
     public TMP_Dropdown conditionDropdown;
     public TMP_InputField titleInput, descInput, idInput, countInput;
     public Button saveButton, loadButton;
-    private AchievementDataBase db;
+
+    private AchievementDataBase achievementdata;
 
     private void Start()
     {
-        db = AchievementSaveService.Load();
+        achievementdata = AchievementSaveService.Load();
         PopulateConditionDropdown();
         RefreshUI();
 
@@ -34,7 +35,7 @@ public class AchievementEditorUI : MonoBehaviour
         achievementDropdown.ClearOptions();
 
         var options = new List<string> { "Add New Achievement" };
-        options.AddRange(db.achievements.Select(a => a.title));
+        options.AddRange(achievementdata.achievements.Select(a => a.title));
         achievementDropdown.AddOptions(options);
 
         achievementDropdown.value = 0;
@@ -44,7 +45,8 @@ public class AchievementEditorUI : MonoBehaviour
 
     void UpdateFields(int index)
     {
-        var a = db.achievements[index];
+        if (index <= 0 || index > achievementdata.achievements.Count) return;
+        var a = achievementdata.achievements[index - 1];
         titleInput.text = a.title;
         descInput.text = a.description;
         idInput.text = a.id;
@@ -52,36 +54,10 @@ public class AchievementEditorUI : MonoBehaviour
         conditionDropdown.value = (int)a.conditionType;
     }
 
-    void SaveJSON()
-    {
-        int index = achievementDropdown.value;
-
-        if (index == 0)
-        { 
-            AddNewAchievementFromFields();
-            Debug.Log("새 업적이 추가 되었습니다.");
-        }
-        else
-        {
-            ApplyFieldsToData(index - 1); // 업적 리스트는 0번이 없기 때문에 -1
-            Debug.Log("업적이 수정되었습니다.");
-        }
-
-        AchievementSaveService.Save(db);
-        RefreshUI();
-        Debug.Log("업적 저장 완료");
-    }
-
-    void LoadJSON()
-    {
-        db = AchievementSaveService.Load();
-        RefreshUI();
-        Debug.Log("업적 불러오기 완료");
-    }
-
     void ApplyFieldsToData(int index)
     {
-        var a = db.achievements[index];
+        if (index < 0 || index >= achievementdata.achievements.Count) return;
+        var a = achievementdata.achievements[index];
         a.title = titleInput.text;
         a.description = descInput.text;
         a.id = idInput.text;
@@ -91,6 +67,12 @@ public class AchievementEditorUI : MonoBehaviour
 
     void AddNewAchievementFromFields()
     {
+        if (IsDuplicateID(idInput.text.Trim()))
+        {
+            Debug.LogWarning("ID 중복으로 추가할 수 없습니다");
+            return;
+        }
+
         AchievementData newAhievement = new AchievementData
         {
             title = titleInput.text,
@@ -102,6 +84,57 @@ public class AchievementEditorUI : MonoBehaviour
             isUnlocked = false
         };
 
-        db.achievements.Add(newAhievement);
+        achievementdata.achievements.Add(newAhievement);
+    }
+
+    void SaveJSON()
+    {
+        int index = achievementDropdown.value;
+        string id = idInput.text.Trim();
+
+        if(string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("업적 ID는 필수입니다.");
+            return;
+        }
+
+        if (index == 0)
+        { 
+            AddNewAchievementFromFields();
+            Debug.Log("새 업적이 추가 되었습니다.");
+        }
+        else
+        {
+            if (IsDuplicateID(id, index - 1))
+            {
+                Debug.LogWarning("업적 ID 중복으로 수정할 수 없습니다.");
+                return;
+            }
+
+            ApplyFieldsToData(index - 1); // 업적 리스트는 0번이 없기 때문에 -1
+            Debug.Log("업적이 수정되었습니다.");
+        }
+
+        AchievementSaveService.Save(achievementdata);
+        RefreshUI();
+        Debug.Log("업적 저장 완료");
+    }
+
+    void LoadJSON()
+    {
+        achievementdata = AchievementSaveService.Load();
+        RefreshUI();
+        Debug.Log("업적 불러오기 완료");
+    }
+
+    bool IsDuplicateID(string id, int ignoreIndex = -1)
+    {
+        for(int i = 0; i < achievementdata.achievements.Count; i++)
+        {
+            if (i == ignoreIndex) continue;
+            if(achievementdata.achievements[i].id == id) return true;   
+        }
+
+        return false;
     }
 }

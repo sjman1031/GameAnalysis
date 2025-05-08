@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public enum AchievementConditionType
 {
@@ -11,9 +12,7 @@ public enum AchievementConditionType
     Achievement_Clear,
 }
 
-
-[CreateAssetMenu(fileName = "Achievement", menuName = "Game/Achievement", order = 1)]
-public class AchievementData : ScriptableObject
+public class AchievementData
 {
     public string id;                               // 고유 ID
     public string title;                            // 업적 이름
@@ -28,8 +27,8 @@ public class AchievementData : ScriptableObject
     public bool isUnlocked;                         // 달성했으면 true, 아니면 false
 }
 
-[CreateAssetMenu(fileName = "AchievementDataBase", menuName = "Game/AchievementDatabase", order = 2), System.Serializable]
-public class AchievementDataBase :ScriptableObject
+[Serializable]
+public class AchievementDataBase
 {
     public List<AchievementData> achievements = new();
 }
