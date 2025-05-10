@@ -1,0 +1,22 @@
+{
+  "maps": [
+    {
+      "mapName": "asdf",
+      "objects": [
+        {
+          "prefabName": "asdf",
+          "instanceName": "9-Sliced",
+          "posX": 0.86447376,
+          "posY": -0.311952382,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "scaleZ": 1.0
+        }
+      ]
+    }
+  ]
+}
