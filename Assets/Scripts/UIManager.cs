@@ -12,8 +12,11 @@ public class UIManager : MonoBehaviour
     public Button button_Load;
     public Button button_Delete;
 
-    [Header("MapSaver 참조")]
+    [Header("SceneSaver 참조")]
     public SceneSaver mapSaver;
+
+    [Header("SceneLoader 참조")]
+    public SceneLoader mapLoader;
 
     private void Start()
     {
@@ -44,7 +47,7 @@ public class UIManager : MonoBehaviour
         if (dropdown_MapList.options.Count == 0) return;
 
         string selectedMap = dropdown_MapList.options[dropdown_MapList.value].text;
-        mapSaver.LoadMap(selectedMap);    
+        mapLoader.LoadMap(selectedMap);    
     }
 
     public void OnClickDelete()

@@ -7,137 +7,93 @@ using UnityEngine.UIElements;
 
 public class SceneSaver : MonoBehaviour
 {
-    private const string MAPS_FILE = "MapsData";
-    // Scene을 MapData로 변환
-    private MapData CreateMapData(string mapName)
-    {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        List<ObjectData> objects = new List<ObjectData>();
-
-        foreach(var obj in allObjects)
-        {
-            // 제외할 object 선별
-            if (!ShouldSaveObject(obj))
-                continue;
-
-            string prefabName = obj.name; // (임시) prefab name = object name
-
-            ObjectData data = new ObjectData()
-            {
-                prefabName      = obj.GetComponent<Saveable>().prefabName,
-                instanceName    = obj.name,
-
-                posX = obj.transform.position.x,
-                posY = obj.transform.position.y,
-                posZ = obj.transform.position.z,
-
-                rotX = obj.transform.eulerAngles.x,
-                rotY = obj.transform.eulerAngles.y,
-                rotZ = obj.transform.eulerAngles.z,
-
-                scaleX = obj.transform.localScale.x,
-                scaleY = obj.transform.localScale.y,
-                scaleZ = obj.transform.localScale.z,
-            };
-
-            objects.Add(data);  
-        }
-
-        return new MapData { mapName = mapName, objects = objects };
-    }
+    const string MAPS_FILE = "MapsData";
 
     public void SaveMap(string mapName)
     {
-        MapData newMap = CreateMapData(mapName);
-        MapDataBase db = LoadAllMaps();
+        var newMap = CreateMapData(mapName);
+        var db = LoadAllMaps();
 
-        // 중복 map 제거 후 추가
         db.maps.RemoveAll(m => m.mapName == mapName);
         db.maps.Add(newMap);
 
         DataManager.Instance.SaveData(db, MAPS_FILE);
-        Debug.Log($"'{mapName}' 저장 완료");
+
+        Debug.Log($"맵 '{mapName}' 저장 완료 → Resources/Datas/{MAPS_FILE}.json");
     }
 
-    public void LoadMap(string mapName)
+    MapData CreateMapData(string mapName)
     {
-        // Scene Clear
-        ClearScene();
+        // (a) TilemapData 생성 로직 추가 가능
+        var saveables = FindObjectsOfType<Saveable>();
+        var objects = new List<ObjectData>();
 
-        MapDataBase db = LoadAllMaps();
-        MapData map = db.maps.FirstOrDefault(m  => m.mapName == mapName);
-        
-        if(map == null)
-        {
-            Debug.LogWarning($"'{mapName}' 맵을 찾을 수 없습니다.");
-            return;
-        }
+        // id용 int 변수
+        int i = 1;
 
-        foreach (var data in map.objects)
-        {
-            GameObject prefab = Resources.Load<GameObject>("Prefabs/" + data.prefabName);
-            if (prefab != null)
+        foreach (var s in saveables)
+        { 
+            var od = new ObjectData
             {
-                GameObject obj = Instantiate(prefab);
-                obj.name = data.instanceName;
-                obj.transform.position      = new Vector3(data.posX, data.posY, data.posZ);
-                obj.transform.eulerAngles   = new Vector3(data.rotX, data.rotY, data.rotZ);
-                obj.transform.localScale    = new Vector3(data.scaleX, data.scaleY, data.scaleZ);
-            }
+                id = i.ToString(),
+                prefabName = s.prefabName,
+                instanceName = s.gameObject.name,
+
+                posX = s.transform.position.x,
+                posY = s.transform.position.y,
+                posZ = s.transform.position.z,
+
+                rotX = s.transform.eulerAngles.x,
+                rotY = s.transform.eulerAngles.y,
+                rotZ = s.transform.eulerAngles.z,
+
+                scaleX = s.transform.localScale.x,
+                scaleY = s.transform.localScale.y,
+                scaleZ = s.transform.localScale.z,
+
+                isActive = s.gameObject.activeSelf
+            };
+
+            // ConnectionEntry → ConnectionData
+            foreach (var e in s.connections)
+                if (e.target != null && e.action != null)
+                    od.connections.Add(new ConnectionData
+                    {
+                        sourceId = s.id,
+                        targetId = e.target.id,
+                        actionType = e.action.name
+                    });
+
+            objects.Add(od);
+            i++;
         }
 
-        Debug.Log($"'{mapName}' 로드 완료");
+        return new MapData { mapName = mapName, objects = objects };
     }
-
     public void DeleteMap(string mapName)
     {
-        MapDataBase db = LoadAllMaps();
-        if (db.maps.RemoveAll(m => m.mapName == mapName) > 0)
+        var db = LoadAllMaps();
+        int removed = db.maps.RemoveAll(m => m.mapName == mapName);
+        if (removed > 0)
         {
             DataManager.Instance.SaveData(db, MAPS_FILE);
-            Debug.Log($"'{mapName}' 삭제 완료");
+            Debug.Log($"맵 '{mapName}' 삭제 완료.");
         }
         else
-            Debug.LogWarning($"'{mapName}' 삭제 실패 (없음)");
-    }
-
-    public bool IsMapExists(string mapName)
-    {
-        return LoadAllMaps().maps.Any(m => m.mapName == mapName); 
+        {
+            Debug.LogWarning($"삭제 실패: 맵 '{mapName}'을(를) 찾을 수 없습니다.");
+        }
     }
 
     public List<String> GetMapNames()
     {
-        return LoadAllMaps().maps.Select(m => m.mapName).ToList();  
-    }
-    private MapDataBase LoadAllMaps()
-    {
-        return DataManager.Instance.LoadData<MapDataBase>(MAPS_FILE) ?? new MapDataBase();  
+        return LoadAllMaps().maps.Select(m => m.mapName).ToList();
     }
 
-    private void ClearScene()
+    MapDataBase LoadAllMaps()
     {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
-        foreach(var obj in allObjects)
-        {
-            if (!ShouldSaveObject(obj))
-                continue;
-            Destroy(obj);   
-        }
-    }
-
-    private bool ShouldSaveObject(GameObject obj)
-    {
-        // 필수 조건
-        if (obj.GetComponent<Saveable>() == null) return false;
-
-        // 추가 조건
-        if (obj.hideFlags == HideFlags.NotEditable || obj.hideFlags == HideFlags.HideAndDontSave) return false;
-        if (!obj.activeInHierarchy) return false;
-        if (obj.scene.name != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name) return false;
-
-        return true;
+        var db = DataManager.Instance.LoadData<MapDataBase>(MAPS_FILE);
+        return db ?? new MapDataBase();
     }
 }
 

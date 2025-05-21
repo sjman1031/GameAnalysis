@@ -1,9 +1,10 @@
 {
   "maps": [
     {
-      "mapName": "asdf",
+      "mapName": "1234",
       "objects": [
         {
+          "id": "1234",
           "prefabName": "asdf",
           "instanceName": "9-Sliced",
           "posX": 0.86447376,
@@ -14,7 +15,9 @@
           "rotZ": 0.0,
           "scaleX": 1.0,
           "scaleY": 1.0,
-          "scaleZ": 1.0
+          "scaleZ": 1.0,
+          "connections": null,
+          "isActive": true
         }
       ]
     }
