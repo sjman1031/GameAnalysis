@@ -33,6 +33,9 @@ public class SceneSaver : MonoBehaviour
 
         foreach (var s in saveables)
         { 
+            string newID = i.ToString();
+            s.id = newID;
+
             var od = new ObjectData
             {
                 id = i.ToString(),

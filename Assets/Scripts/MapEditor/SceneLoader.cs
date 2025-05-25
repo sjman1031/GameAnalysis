@@ -37,6 +37,7 @@ public class SceneLoader : MonoBehaviour
 
             var go = Instantiate(prefab);
             go.name = od.instanceName;
+
             go.transform.position    = new Vector3(od.posX, od.posY, od.posZ);
             go.transform.eulerAngles = new Vector3(od.rotX, od.rotY, od.rotZ);
             go.transform.localScale  = new Vector3(od.scaleX, od.scaleY, od.scaleZ);
@@ -44,6 +45,7 @@ public class SceneLoader : MonoBehaviour
 
             var s = go.GetComponent<Saveable>();
             s.id = od.id;
+
             spawned[od.id] = go;
         }
 
@@ -51,7 +53,8 @@ public class SceneLoader : MonoBehaviour
         {
             var s = spawned[od.id].GetComponent<Saveable>();
             s.connections.Clear();
-            if (od.connections)
+
+            if (od.connections != null)
             {
                 foreach (var cd in od.connections)
                 {

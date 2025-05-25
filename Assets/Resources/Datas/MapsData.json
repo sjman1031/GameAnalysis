@@ -20,6 +20,59 @@
           "isActive": true
         }
       ]
+    },
+    {
+      "mapName": "stage_1",
+      "objects": [
+        {
+          "id": "1",
+          "prefabName": "",
+          "instanceName": "Map",
+          "posX": 0.0,
+          "posY": 0.0,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "scaleZ": 1.0,
+          "connections": null,
+          "isActive": true
+        },
+        {
+          "id": "2",
+          "prefabName": "",
+          "instanceName": "Grid",
+          "posX": 0.0,
+          "posY": 0.0,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "scaleZ": 1.0,
+          "connections": null,
+          "isActive": true
+        },
+        {
+          "id": "3",
+          "prefabName": "Player",
+          "instanceName": "Player",
+          "posX": 0.0,
+          "posY": 0.0,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "scaleZ": 1.0,
+          "connections": null,
+          "isActive": true
+        }
+      ]
     }
   ]
 }

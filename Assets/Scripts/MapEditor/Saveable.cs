@@ -13,7 +13,8 @@ public class Saveable :MonoBehaviour
     private void Reset()
     {
         var col = GetComponent<Collider>();
-        col.isTrigger = true;
+        if(col != null)    
+            col.isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider other)
