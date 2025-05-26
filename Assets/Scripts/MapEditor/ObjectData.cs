@@ -35,6 +35,7 @@ public class MapData
 {
     public string mapName;
     public List<ObjectData> objects;
+    public List<TileMapLayerData> tileMapLayers = new List<TileMapLayerData>();
 }
 
 [Serializable]

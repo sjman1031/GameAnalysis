@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class TileData
 {
     public int x, y;
-    public string tileId;
+    public string tileName;
 }
 
 [Serializable]
@@ -13,7 +13,7 @@ public class TileMapLayerData
 {
     public string layerName;
     public int width, height;
-    public List<TileData> tiles;
+    public List<TileData> tiles = new List<TileData>();
 }
 
 [Serializable]

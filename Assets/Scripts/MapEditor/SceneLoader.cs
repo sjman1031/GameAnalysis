@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.IO;
 using System;
 
@@ -27,6 +28,24 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogWarning($"¸Ê '{mapName}' ¾øÀ½");
             return;
+        }
+
+        var gridGO  = new GameObject("Grid");
+        var grid    = gridGO.AddComponent<Grid>();
+        foreach (var layer in map.tileMapLayers)
+        {
+            var layerGO = new GameObject(layer.layerName);
+            layerGO.transform.parent = gridGO.transform;
+            
+            var tm = layerGO.AddComponent<Tilemap>();
+            layerGO.AddComponent<TilemapRenderer>();
+
+            for(int i = 0; i < layer.tiles.Count; i++)
+            {
+                var td = layer.tiles[i];
+                var tile = Resources.Load<Tile>("Tiles/" + td.tileName);
+                tm.SetTile(new Vector3Int(td.x, td.y, 0), tile);
+            }
         }
 
         var spawned = new Dictionary<string, GameObject>();

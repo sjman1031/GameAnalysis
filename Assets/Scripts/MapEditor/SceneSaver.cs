@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Tilemaps;
 
 public class SceneSaver : MonoBehaviour
 {
@@ -24,9 +25,37 @@ public class SceneSaver : MonoBehaviour
 
     MapData CreateMapData(string mapName)
     {
-        // (a) TilemapData 생성 로직 추가 가능
         var saveables = FindObjectsOfType<Saveable>();
         var objects = new List<ObjectData>();
+
+        var mapData = new MapData { mapName = mapName };
+
+        var allTileMap = FindObjectsOfType<Tilemap>();
+        foreach(var tm in allTileMap)
+        {
+            var layer = new TileMapLayerData();
+            layer.layerName = tm.gameObject.name;
+
+            var bounds = tm.cellBounds;
+            layer.width     = bounds.size.x;
+            layer.height    = bounds.size.y;
+
+            for(int x = bounds.xMin; x < bounds.xMax; x++) 
+                for(int y = bounds.yMin; y < bounds.yMax; y++)
+                {
+                    var tile = tm.GetTile(new Vector3Int(x, y, 0));    
+                    if(tile == null) continue;
+
+                    layer.tiles.Add(new TileData
+                    {
+                        x = x - bounds.xMin,
+                        y = y - bounds.yMin,
+                        tileName = tile.name
+                    });
+                }
+
+            mapData.tileMapLayers.Add(layer);
+        }
 
         // id용 int 변수
         int i = 1;
