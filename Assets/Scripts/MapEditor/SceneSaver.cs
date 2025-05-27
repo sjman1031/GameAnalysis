@@ -25,21 +25,31 @@ public class SceneSaver : MonoBehaviour
 
     MapData CreateMapData(string mapName)
     {
-        var saveables = FindObjectsOfType<Saveable>();
-        var objects = new List<ObjectData>();
-
-        var mapData = new MapData { mapName = mapName };
+        var mapData = new MapData
+        {
+            mapName = mapName,
+            originX = transform.position.x,
+            originY = transform.position.y,
+            originZ = transform.position.z, 
+            tileMapLayers = new List<TileMapLayerData>(),
+            objects = new List<ObjectData>()
+        };
 
         var allTileMap = FindObjectsOfType<Tilemap>();
-        foreach(var tm in allTileMap)
+        foreach (var tm in allTileMap)
         {
-            var layer = new TileMapLayerData();
-            layer.layerName = tm.gameObject.name;
-
             var bounds = tm.cellBounds;
-            layer.width     = bounds.size.x;
-            layer.height    = bounds.size.y;
+            var layer = new TileMapLayerData
+            {
+                layerName   = tm.gameObject.name,
+                originX     = bounds.xMin,
+                originY     = bounds.yMin,
+                width       = bounds.size.x,
+                height      = bounds.size.y,
+                tiles       = new List<TileData>()
+            };
 
+                
             for(int x = bounds.xMin; x < bounds.xMax; x++) 
                 for(int y = bounds.yMin; y < bounds.yMax; y++)
                 {
@@ -59,6 +69,7 @@ public class SceneSaver : MonoBehaviour
 
         // id¿ë int º¯¼ö
         int i = 1;
+        var saveables = FindObjectsOfType<Saveable>();
 
         foreach (var s in saveables)
         { 
@@ -71,9 +82,9 @@ public class SceneSaver : MonoBehaviour
                 prefabName = s.prefabName,
                 instanceName = s.gameObject.name,
 
-                posX = s.transform.position.x,
-                posY = s.transform.position.y,
-                posZ = s.transform.position.z,
+                posX = s.transform.position.x - mapData.originX,
+                posY = s.transform.position.y - mapData.originY,
+                posZ = s.transform.position.z - mapData.originZ,
 
                 rotX = s.transform.eulerAngles.x,
                 rotY = s.transform.eulerAngles.y,
@@ -96,11 +107,11 @@ public class SceneSaver : MonoBehaviour
                         actionType = e.action.name
                     });
 
-            objects.Add(od);
+            mapData.objects.Add(od);
             i++;
         }
 
-        return new MapData { mapName = mapName, objects = objects };
+        return mapData;
     }
     public void DeleteMap(string mapName)
     {

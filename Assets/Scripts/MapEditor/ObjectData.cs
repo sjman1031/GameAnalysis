@@ -35,6 +35,11 @@ public class MapData
 {
     public string mapName;
     public List<ObjectData> objects;
+
+    public float originX;
+    public float originY;
+    public float originZ;
+
     public List<TileMapLayerData> tileMapLayers = new List<TileMapLayerData>();
 }
 

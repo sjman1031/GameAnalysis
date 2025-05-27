@@ -12,6 +12,8 @@ public class TileData
 public class TileMapLayerData
 {
     public string layerName;
+    public int originX;
+    public int originY;
     public int width, height;
     public List<TileData> tiles = new List<TileData>();
 }

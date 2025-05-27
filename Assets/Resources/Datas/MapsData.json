@@ -1,47 +1,15 @@
 {
   "maps": [
     {
-      "mapName": "stage_1",
+      "mapName": "1234",
       "objects": [
         {
           "id": "1",
-          "prefabName": "",
-          "instanceName": "Map",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": null,
-          "isActive": true
-        },
-        {
-          "id": "2",
-          "prefabName": "",
-          "instanceName": "Grid",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": null,
-          "isActive": true
-        },
-        {
-          "id": "3",
           "prefabName": "Player",
           "instanceName": "Player",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
+          "posX": 1.84010124,
+          "posY": -3.579599,
+          "posZ": -1.34385407,
           "rotX": 0.0,
           "rotY": 0.0,
           "rotZ": 0.0,
@@ -51,58 +19,119 @@
           "connections": null,
           "isActive": true
         }
-      ]
-    },
-    {
-      "mapName": "1234",
-      "objects": [
+      ],
+      "originX": -1.84010124,
+      "originY": 3.579599,
+      "originZ": 1.34385407,
+      "tileMapLayers": [
         {
-          "id": "1",
-          "prefabName": "Player",
-          "instanceName": "Player",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": null,
-          "isActive": true
-        },
-        {
-          "id": "2",
-          "prefabName": "",
-          "instanceName": "Grid",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": null,
-          "isActive": true
-        },
-        {
-          "id": "3",
-          "prefabName": "",
-          "instanceName": "Map",
-          "posX": 0.0,
-          "posY": 0.0,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": null,
-          "isActive": true
+          "layerName": "Map",
+          "originX": -4,
+          "originY": -2,
+          "width": 11,
+          "height": 4,
+          "tiles": [
+            {
+              "x": 0,
+              "y": 0,
+              "tileName": "TileGround1"
+            },
+            {
+              "x": 0,
+              "y": 1,
+              "tileName": "TileGround7"
+            },
+            {
+              "x": 0,
+              "y": 2,
+              "tileName": "TileGround4"
+            },
+            {
+              "x": 0,
+              "y": 3,
+              "tileName": "TileGround1"
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "tileName": "TileGround8"
+            },
+            {
+              "x": 1,
+              "y": 2,
+              "tileName": "TileGround5"
+            },
+            {
+              "x": 1,
+              "y": 3,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 2,
+              "y": 1,
+              "tileName": "TileGround9"
+            },
+            {
+              "x": 2,
+              "y": 2,
+              "tileName": "TileGround6"
+            },
+            {
+              "x": 2,
+              "y": 3,
+              "tileName": "TileGround3"
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 5,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 6,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 7,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 9,
+              "y": 0,
+              "tileName": "TileGround2"
+            },
+            {
+              "x": 10,
+              "y": 0,
+              "tileName": "TileGround3"
+            }
+          ]
         }
       ]
     }

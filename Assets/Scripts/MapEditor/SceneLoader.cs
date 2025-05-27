@@ -30,15 +30,27 @@ public class SceneLoader : MonoBehaviour
             return;
         }
 
+        var mapRoot = new GameObject($"Map_{mapName}");
+        mapRoot.transform.position = new Vector3(map.originX, map.originY, map.originZ);
+
         var gridGO  = new GameObject("Grid");
+        gridGO.transform.SetParent(mapRoot.transform, false);
+        gridGO.transform.localPosition = Vector3.zero;
         var grid    = gridGO.AddComponent<Grid>();
+
         foreach (var layer in map.tileMapLayers)
         {
             var layerGO = new GameObject(layer.layerName);
-            layerGO.transform.parent = gridGO.transform;
-            
+            layerGO.transform.SetParent(gridGO.transform, false);
+
+            layerGO.transform.localPosition = new Vector3(layer.originX, layer.originY, 0);
+
             var tm = layerGO.AddComponent<Tilemap>();
             layerGO.AddComponent<TilemapRenderer>();
+            layerGO.AddComponent<TilemapCollider2D>();
+            layerGO.AddComponent<Rigidbody2D>();
+
+            layerGO.GetComponent<Rigidbody>().isKinematic = true;
 
             for(int i = 0; i < layer.tiles.Count; i++)
             {
@@ -54,7 +66,7 @@ public class SceneLoader : MonoBehaviour
             var prefab = Resources.Load<GameObject>("Prefabs/" + od.prefabName);
             if (prefab == null) continue;
 
-            var go = Instantiate(prefab);
+            var go = Instantiate(prefab, mapRoot.transform);
             go.name = od.instanceName;
 
             go.transform.position    = new Vector3(od.posX, od.posY, od.posZ);

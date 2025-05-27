@@ -450,7 +450,6 @@ GameObject:
   m_Component:
   - component: {fileID: 398780917}
   - component: {fileID: 398780916}
-  - component: {fileID: 398780918}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -486,21 +485,6 @@ Transform:
   - {fileID: 784270784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &398780918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398780915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a649aef70c4834ba9562d7b241fbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabName: 
-  id: 
-  connections: []
 --- !u!1 &427700325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1108,6 @@ GameObject:
   - component: {fileID: 784270785}
   - component: {fileID: 784270788}
   - component: {fileID: 784270787}
-  - component: {fileID: 784270789}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1439,21 +1422,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &784270789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784270783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a649aef70c4834ba9562d7b241fbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabName: 
-  id: 
-  connections: []
 --- !u!1 &920914219
 GameObject:
   m_ObjectHideFlags: 0
