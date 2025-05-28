@@ -27,10 +27,7 @@ public class SceneSaver : MonoBehaviour
     {
         var mapData = new MapData
         {
-            mapName = mapName,
-            originX = transform.position.x,
-            originY = transform.position.y,
-            originZ = transform.position.z, 
+            mapName = mapName, 
             tileMapLayers = new List<TileMapLayerData>(),
             objects = new List<ObjectData>()
         };
@@ -41,27 +38,38 @@ public class SceneSaver : MonoBehaviour
             var bounds = tm.cellBounds;
             var layer = new TileMapLayerData
             {
-                layerName   = tm.gameObject.name,
-                originX     = bounds.xMin,
-                originY     = bounds.yMin,
-                width       = bounds.size.x,
-                height      = bounds.size.y,
-                tiles       = new List<TileData>()
+                layerName       = tm.gameObject.name,
+                originX         = bounds.xMin,
+                originY         = bounds.yMin,
+                width           = bounds.size.x,
+                height          = bounds.size.y,
+                tiles           = new List<TileData>()
             };
 
-                
-            for(int x = bounds.xMin; x < bounds.xMax; x++) 
-                for(int y = bounds.yMin; y < bounds.yMax; y++)
-                {
-                    var tile = tm.GetTile(new Vector3Int(x, y, 0));    
-                    if(tile == null) continue;
 
-                    layer.tiles.Add(new TileData
+            for (int x = bounds.xMin; x < bounds.xMax; x++)
+                for (int y = bounds.yMin; y < bounds.yMax; y++)
+                {
+                    var tile = tm.GetTile(new Vector3Int(x, y, 0));
+                    if (tile == null)
                     {
-                        x = x - bounds.xMin,
-                        y = y - bounds.yMin,
-                        tileName = tile.name
-                    });
+                        layer.tiles.Add(new TileData
+                        {
+                            x = x - bounds.xMin,
+                            y = y - bounds.yMin,
+                            tileName = "null"
+                        });
+                    }
+
+                    else 
+                    { 
+                        layer.tiles.Add(new TileData
+                        {
+                            x = x - bounds.xMin,
+                            y = y - bounds.yMin,
+                            tileName = tile.name
+                        });
+                    }
                 }
 
             mapData.tileMapLayers.Add(layer);
@@ -82,9 +90,9 @@ public class SceneSaver : MonoBehaviour
                 prefabName = s.prefabName,
                 instanceName = s.gameObject.name,
 
-                posX = s.transform.position.x - mapData.originX,
-                posY = s.transform.position.y - mapData.originY,
-                posZ = s.transform.position.z - mapData.originZ,
+                posX = s.transform.position.x,
+                posY = s.transform.position.y,
+                posZ = s.transform.position.z,
 
                 rotX = s.transform.eulerAngles.x,
                 rotY = s.transform.eulerAngles.y,

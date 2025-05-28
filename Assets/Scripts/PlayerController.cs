@@ -41,25 +41,19 @@ public class PlayerController : MonoBehaviour
         MoveObject(rb1, KeyCode.W, KeyCode.A, KeyCode.D, ref playerState1);
         MoveObject(rb2, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.RightArrow, ref playerState2);
 
-        if(t >= 1.0f)
-        {
-            Debug.Log("velX: " + rb2.velocity.x + ", velY: " + rb2.velocity.y);
-            t = 0f;
-        }
-
         t += Time.fixedDeltaTime;
 
-            //if (playerState1 == ePlayerState.Jump || playerState2 == ePlayerState.Jump)
-            //{
-            //    groundJoint.enabled = false;
-            //    onAirJoint.enabled = true;
-            //}
-            //else
-            //{
-            //    groundJoint.enabled = true;
-            //    onAirJoint.enabled = false;
-            //}
+        if (playerState1 == ePlayerState.Jump || playerState2 == ePlayerState.Jump)
+        {
+            groundJoint.enabled = false;
+            onAirJoint.enabled = true;
         }
+        else
+        {
+            groundJoint.enabled = true;
+            onAirJoint.enabled = false;
+        }
+    }
 
         void MoveObject(Rigidbody2D rb, KeyCode up, KeyCode left, KeyCode right, ref ePlayerState playerState)
     {
@@ -107,9 +101,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player") 
         {
-            if(gameObject.name == "Red")
+            if(gameObject.name == "Lucy")
                 playerState1 = ePlayerState.Idle;
-            if(gameObject.name == "Blue")
+            if(gameObject.name == "Paul")
                 playerState2 = ePlayerState.Idle;
         }
     }    
