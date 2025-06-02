@@ -15,7 +15,7 @@ public class OpenWallAction : InteractionAction
 
     public override void Execute(GameObject source, GameObject target)
     {
-        CouroutineRunner.Instance.StartCoroutine(OpenRoutine(target.transform));
+        CoroutineRunner.Instance.StartCoroutine(OpenRoutine(target.transform));
     }
 
     private IEnumerator OpenRoutine(Transform wallTransform)
@@ -47,5 +47,39 @@ public class ActivatePlatformAction : InteractionAction
         }
 
         target.SetActive(true); 
+    }
+}
+
+[CreateAssetMenu(menuName = "Actions/ActivateDashAction")]
+public class ActivateDashAction : InteractionAction
+{
+    public override void Execute(GameObject source, GameObject target)
+    {
+        if(source.GetComponent<PlayerManager>() == null)
+        {
+            Debug.LogWarning("ActivateDashAction: PlayerManager가 없습니다.");
+            return;
+        }
+
+        source.GetComponent<PlayerManager>().playerState = Enums.ePlayerState.Dash;
+        Debug.Log($"{source.name} Dash 활성화");
+    }
+}
+
+[CreateAssetMenu(menuName = "Actions/ExtenRopeLengthAction")]
+public class ExtendLengthAction : InteractionAction
+{
+    public override void Execute(GameObject source, GameObject target)
+    {
+        GameObject lucyGO = GameObject.Find("Lucy");
+
+        if(lucyGO == null)
+        {
+            Debug.LogWarning("ExtendLengthAction: Lucy GameObject가 없습니다.");
+            return;
+        }
+
+        lucyGO.GetComponent<SpringJoint2D>().distance   += 2f;
+        lucyGO.GetComponent<DistanceJoint2D>().distance += 2f;
     }
 }

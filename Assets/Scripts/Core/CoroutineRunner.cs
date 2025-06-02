@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class CouroutineRunner : MonoBehaviour
+public class CoroutineRunner : MonoBehaviour
 {
-    private static CouroutineRunner _instance;
+    private static CoroutineRunner _instance;
 
-    public static CouroutineRunner Instance
+    public static CoroutineRunner Instance
     {
         get
         {
@@ -13,7 +13,7 @@ public class CouroutineRunner : MonoBehaviour
             {
                 var go = new GameObject("CoroutineRunner");
                 DontDestroyOnLoad(go);
-                _instance = go.AddComponent<CouroutineRunner>();
+                _instance = go.AddComponent<CoroutineRunner>();
             }
 
             return _instance;   

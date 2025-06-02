@@ -10,7 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: OpenWall
-  m_EditorClassIdentifier: Assembly-CSharp::OpenWallAction
-  openHeigt: 5
-  openDuration: 1
+  m_Name: Active Platform
+  m_EditorClassIdentifier: Assembly-CSharp::ActivatePlatformAction

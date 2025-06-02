@@ -4,7 +4,7 @@ using UnityEngine;
 using Enums;
 
 // 저장 가능한 오브젝트에만 붙힐 컴포넌트
-public class Saveable :MonoBehaviour
+public class Saveable : MonoBehaviour
 {
     public string prefabName;
     public string id;
@@ -12,16 +12,17 @@ public class Saveable :MonoBehaviour
 
     private void Reset()
     {
-        var col = GetComponent<Collider>();
-        if(col != null)    
-            col.isTrigger = true;
+        //var col = GetComponent<Collider>();
+        //if(col != null)    
+        //    col.isTrigger = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player")) return;
 
-        foreach(var entry in connections)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag != "Player") return;
+
+        foreach (var entry in connections)
         {
             if (entry.target == null || entry.action == null)
             {

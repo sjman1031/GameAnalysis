@@ -75,52 +75,60 @@ public class SceneSaver : MonoBehaviour
             mapData.tileMapLayers.Add(layer);
         }
 
-        // id용 int 변수
-        int i = 1;
-        var saveables = FindObjectsOfType<Saveable>();
+        var saveables = FindObjectsOfType<Saveable>(includeInactive: true).OrderBy(s => s.name).ToArray();
+        var lookup = new Dictionary<Saveable, ObjectData>();
 
-        foreach (var s in saveables)
-        { 
-            string newID = i.ToString();
-            s.id = newID;
+        for(int i = 0; i < saveables.Length; i++)
+        {
+            var s = saveables[i];
+            s.id = (i + 1).ToString();
 
             var od = new ObjectData
             {
-                id = i.ToString(),
-                prefabName = s.prefabName,
-                instanceName = s.gameObject.name,
-
-                posX = s.transform.position.x,
-                posY = s.transform.position.y,
-                posZ = s.transform.position.z,
-
-                rotX = s.transform.eulerAngles.x,
-                rotY = s.transform.eulerAngles.y,
-                rotZ = s.transform.eulerAngles.z,
-
-                scaleX = s.transform.localScale.x,
-                scaleY = s.transform.localScale.y,
-                scaleZ = s.transform.localScale.z,
-
-                isActive = s.gameObject.activeSelf
+                id              = s.id,
+                prefabName      = s.prefabName,
+                instanceName    = s.gameObject.name,
+                posX            = s.transform.position.x,
+                posY            = s.transform.position.y,
+                posZ            = s.transform.position.z,
+                rotX            = s.transform.eulerAngles.x,
+                rotY            = s.transform.eulerAngles.y,
+                rotZ            = s.transform.eulerAngles.z,
+                scaleX          = s.transform.localScale.x,
+                scaleY          = s.transform.localScale.y,
+                scaleZ          = s.transform.localScale.z,
+                isActive        = s.gameObject.activeSelf,
+                connections     = new List<ConnectionData>()
             };
 
-            // ConnectionEntry → ConnectionData
-            foreach (var e in s.connections)
+            lookup[s] = od;
+            mapData.objects.Add(od);    
+        }
+
+        foreach(var s in saveables)
+        {
+            var od = lookup[s];
+            
+            foreach(var e in s.connections)
+            {
                 if (e.target != null && e.action != null)
+                {
+                    var targetOD = lookup[e.target];
                     od.connections.Add(new ConnectionData
                     {
-                        sourceId = s.id,
-                        targetId = e.target.id,
+                        sourceId = od.id,
+                        targetId = targetOD.id,
                         actionType = e.action.name
                     });
-
-            mapData.objects.Add(od);
-            i++;
+                }
+                else
+                    Debug.Log($"[{s.name}] 유효하지 않은 connection entry: {e}");
+            }
         }
 
         return mapData;
     }
+
     public void DeleteMap(string mapName)
     {
         var db = LoadAllMaps();

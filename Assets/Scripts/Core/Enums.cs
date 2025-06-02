@@ -7,5 +7,6 @@ namespace Enums
         Walk,
         Run,
         Jump,
+        Dash,
     }
 }

@@ -67,6 +67,12 @@ public class SceneLoader : MonoBehaviour
             if (prefab == null) continue;
 
             var go = Instantiate(prefab);
+            if(go == null)
+            {
+                Debug.LogWarning($"LoadMap: {prefab} ¾øÀ½");
+                continue;
+            }
+
             go.name = od.instanceName;
 
             go.transform.position    = new Vector3(od.posX, od.posY, od.posZ);
@@ -106,10 +112,10 @@ public class SceneLoader : MonoBehaviour
 
     private void CleanScene()
     {
-        foreach (var s in FindObjectsOfType<Saveable>())
+        foreach (var s in FindObjectsOfType<Saveable>(includeInactive: true))
             Destroy(s.gameObject);
 
-        foreach (var grid in FindObjectsOfType<Grid>())
+        foreach (var grid in FindObjectsOfType<Grid>(includeInactive: true))
             Destroy(grid.gameObject);
     }
 }
