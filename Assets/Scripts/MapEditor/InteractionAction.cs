@@ -10,7 +10,7 @@ public abstract class InteractionAction : ScriptableObject
 public class OpenWallAction : InteractionAction
 {
     [Header("속도 설정")]
-    public float openHeigt = 5f;
+    public float openHeight = 5f;
     public float openDuration = 1f;
 
     public override void Execute(GameObject source, GameObject target)
@@ -21,7 +21,7 @@ public class OpenWallAction : InteractionAction
     private IEnumerator OpenRoutine(Transform wallTransform)
     {
         Vector3 start   = wallTransform.position; 
-        Vector3 end     = start + Vector3.up * openHeigt;
+        Vector3 end     = start + Vector3.up * openHeight;
 
         float t = 0;
         while (t < openDuration)
@@ -55,13 +55,13 @@ public class ActivateDashAction : InteractionAction
 {
     public override void Execute(GameObject source, GameObject target)
     {
-        if(source.GetComponent<PlayerManager>() == null)
+        if(source.GetComponent<PlayerController>() == null)
         {
-            Debug.LogWarning("ActivateDashAction: PlayerManager가 없습니다.");
+            Debug.LogWarning("ActivateDashAction: PlayerController가 없습니다.");
             return;
         }
 
-        source.GetComponent<PlayerManager>().playerState = Enums.ePlayerState.Dash;
+        source.GetComponent<PlayerController>().playerState = ePlayerState.Dash;
         Debug.Log($"{source.name} Dash 활성화");
     }
 }
