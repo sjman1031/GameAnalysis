@@ -8206,10 +8206,6 @@ MonoBehaviour:
   player1: {fileID: 0}
   player2: {fileID: 0}
   smoothTime: 0.25
-  minZoom: 6
-  maxZoom: 15
-  zoomLimiter: 6
-  zoomSmoothTime: 0.25
 --- !u!1 &1447237603
 GameObject:
   m_ObjectHideFlags: 0
@@ -8494,11 +8490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7961139931608970998, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7961139931608970998, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7961139931608970998, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_LocalPosition.z
