@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public bool canDash         = false;
 
     [Header("Swing")]
+    public float swingThreshold = 0.97f;
     public float swingPower = 10f;
     public float maxAngularVelocity = 200f;
 
@@ -302,9 +303,16 @@ public class PlayerController : MonoBehaviour
 
     private bool IsSwingState()
     {
-        if(playerState == ePlayerState.Jump && otherPlayer.onGround) return true;
-
-        return false;
+        if(isJointHolder)
+            return playerState == ePlayerState.Jump
+                && otherPlayer.onGround
+                && Vector3.Distance(rb.position, otherPlayer.rb.position)
+                >= distanceJoint.distance * swingThreshold;
+        else
+            return playerState == ePlayerState.Jump
+                && otherPlayer.onGround
+                && Vector3.Distance(rb.position, otherPlayer.rb.position)
+                >= otherPlayer.distanceJoint.distance * swingThreshold;
     }
 
     private void TrySwingBoost()
