@@ -7266,7 +7266,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4710ade4303b111459117b0c10c8c998, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -8460,13 +8460,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1938282369566245881, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
+      propertyPath: m_TagString
+      value: Foot
+      objectReference: {fileID: 0}
     - target: {fileID: 3205065996465679500, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3598418728911943849, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3598418728911943849, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_Frequency
@@ -8479,6 +8483,10 @@ PrefabInstance:
     - target: {fileID: 5533733519934983732, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732049162020818212, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
+      propertyPath: m_BodyType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7230612553787349532, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: sceneViewId
@@ -8526,7 +8534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8483395887750141162, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8483395887750141162, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
       propertyPath: m_MaxDistanceOnly
@@ -9625,7 +9633,7 @@ PrefabInstance:
     - target: {fileID: 9018567637572449353, guid: 1550c53077f4e0f4bb9c1ea39ed81d1d, type: 3}
       propertyPath: connections.Array.data[0].action
       value: 
-      objectReference: {fileID: 11400000, guid: 065e84ae73bf5754b80f7be209770671, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 9018567637572449353, guid: 1550c53077f4e0f4bb9c1ea39ed81d1d, type: 3}
       propertyPath: connections.Array.data[0].target
       value: 

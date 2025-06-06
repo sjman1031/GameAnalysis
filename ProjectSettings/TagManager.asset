@@ -9,6 +9,7 @@ TagManager:
   - Blue
   - Red
   - Head
+  - Foot
   layers:
   - Default
   - TransparentFX

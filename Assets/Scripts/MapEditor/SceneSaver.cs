@@ -36,11 +36,12 @@ public class SceneSaver : MonoBehaviour
         foreach (var tm in allTileMap)
         {
             var bounds = tm.cellBounds;
+            var renderer = tm.GetComponent<TilemapRenderer>();
             var layer = new TileMapLayerData
             {
                 layerName       = tm.gameObject.name,
-                originX         = bounds.xMin,
-                originY         = bounds.yMin,
+                originX         = renderer.bounds.min.x,
+                originY         = renderer.bounds.min.y,
                 width           = bounds.size.x,
                 height          = bounds.size.y,
                 tiles           = new List<TileData>()

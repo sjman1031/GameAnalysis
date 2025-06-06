@@ -61,7 +61,7 @@ public class ActivateDashAction : InteractionAction
             return;
         }
 
-        source.GetComponent<PlayerController>().playerState = ePlayerState.Dash;
+        source.GetComponent<PlayerController>().canDash = true;
         Debug.Log($"{source.name} Dash È°¼ºÈ­");
     }
 }
@@ -79,7 +79,6 @@ public class ExtendLengthAction : InteractionAction
             return;
         }
 
-        lucyGO.GetComponent<SpringJoint2D>().distance   += 2f;
         lucyGO.GetComponent<DistanceJoint2D>().distance += 2f;
     }
 }

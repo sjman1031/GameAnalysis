@@ -1,10 +1,16 @@
 using UnityEngine;
+using Unity.Mathematics;
+using System.Xml.Serialization;
+using System.Collections;
+
+
+
 #if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
 #endif
 
 public enum ePlayerInputType { WASD, ARROW }
-public enum ePlayerState { Idle, Jump, OnAir, Dash }
+public enum ePlayerState { Idle, Jump }
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
@@ -12,31 +18,32 @@ public class PlayerController : MonoBehaviour
     , IPunObservable
 #endif
 {
+    // public Transform arrow; 
+
     [Header("Input")]
     public ePlayerInputType inputType = ePlayerInputType.WASD;
 
     [Header("Movement")]
-    public float moveSpeed = 7f;
-    public float jumpForce = 13f;
-    public float acceleration = 12f;
+    public float moveSpeed      = 7f;
+    public float jumpForce      = 13f;
+    public float acceleration   = 12f;
+    public float dashSpeed      = 30f;
+    public float dashDuration   = 0.2f;
+    public bool canDash         = false;
 
     [Header("Swing")]
-    public float swingTorque = 500f;
-    public float maxAngularVelocity = 3000000f;
-    public float ropeTensionThreshold = 0.97f; // 스윙 판정 임계값
-    public bool isSwinging = false;
+    public float swingPower = 10f;
+    public float maxAngularVelocity = 200f;
 
     [Header("Joint Options")]
-    public bool useSpringJoint = false;
-    public SpringJoint2D springJoint;
     public DistanceJoint2D distanceJoint;
     public bool isJointHolder = false;
 
     private bool swingImmune = false;
 
-    [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public PlayerController otherPlayer;
-    [HideInInspector] public bool onGround = false;
+    public Rigidbody2D rb;
+    public PlayerController otherPlayer;
+    public bool onGround = false;
 
     public ePlayerState playerState = ePlayerState.Idle;
     private bool prevSwinging = false;
@@ -52,7 +59,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        springJoint = GetComponent<SpringJoint2D>();
         distanceJoint = GetComponent<DistanceJoint2D>();
 
 #if PHOTON_UNITY_NETWORKING
@@ -65,10 +71,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        onGround = true;
-
-        Debug.Log($"{this.name} position: {transform.position}");
-        Debug.Log($"{this.name} velocity: {rb.velocity}");
+        //Debug.Log($"{this.name} position: {transform.position}");
+        //Debug.Log($"{this.name} velocity: {rb.velocity}");
 
         if (otherPlayer == null)
         {
@@ -77,86 +81,58 @@ public class PlayerController : MonoBehaviour
                     if (pc != this) otherPlayer = pc;
 
 
-            Debug.Log($"{this.name} otherPlayer: {otherPlayer.name}");
+            //Debug.Log($"{this.name} otherPlayer: {otherPlayer.name}");
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
 #if PHOTON_UNITY_NETWORKING
         if (!pv.IsMine && pv != null) return;
 #endif
-        bool amIGrounded = onGround;
-        bool otherGrounded = otherPlayer != null && otherPlayer.onGround;
-        bool bothOnGround = amIGrounded && otherGrounded;
-        bool bothInAir = !amIGrounded && !otherGrounded;
 
-        bool swinging = isSwinging; 
+        if (!IsSwingState())
+        {
+            Move();
+            Jump();
+            SwingImmune();
+        }
+        else
+            TrySwingBoost();
 
-        if (bothOnGround)
+        if (canDash)
         {
-            rb.freezeRotation = true;
-            rb.MoveRotation(0f);
-            rb.angularVelocity = 0f;
-        }
-        else if (bothInAir)
-        {
-            rb.freezeRotation = true;
-            rb.MoveRotation(0f);
-            rb.angularVelocity = 0f;
-        }
-        else if (amIGrounded && !otherGrounded)
-        {
-            rb.freezeRotation = true;
-            rb.MoveRotation(0f);
-            rb.angularVelocity = 0f;
-        }
-        else if (!amIGrounded && otherGrounded)
-        {
-            if (swinging)
+            Vector2 dircetion = Vector2.zero;
+            if (inputType == ePlayerInputType.WASD && Input.GetKeyDown(KeyCode.RightShift))
             {
-                rb.freezeRotation = false;
-                ClampRotation();
+                dircetion = rb.velocity.normalized;
+                StartCoroutine(Dash(dircetion));
             }
-            else
+
+            else if (inputType == ePlayerInputType.ARROW && Input.GetKeyDown(KeyCode.LeftShift))
             {
-                rb.freezeRotation = true;
-                rb.MoveRotation(0f);
-                rb.angularVelocity = 0f;
+                dircetion = rb.velocity.normalized;
+                StartCoroutine(Dash(dircetion));
             }
         }
 
-
-        if (springJoint != null && distanceJoint != null)
-        {
-            if (isSwinging)
-            {
-                if (!springJoint.enabled)
-                {
-                    CopyJointParameters(distanceJoint, springJoint);
-                    springJoint.enabled = true;
-                    distanceJoint.enabled = false;
-                }
-            }
-            else
-            {
-                if (!distanceJoint.enabled)
-                {
-                    CopyJointParameters(springJoint, distanceJoint);
-                    distanceJoint.enabled = true;
-                    springJoint.enabled = false;
-                }
-            }
-        }
-
-        Move();
-        Jump();
-        SwingImmune();
-        //if (isJointHolder)
-        //    UpdateJoint();
-        TrySwingBoost();
         UpdatePlayerState();
     }
+
+
+//    private void FixedUpdate()
+//    {
+//#if PHOTON_UNITY_NETWORKING
+//        if (!pv.IsMine && pv != null) return;
+//#endif
+//        Move();
+//        Jump();
+//        SwingImmune();
+//        //if (isJointHolder)
+//        //    UpdateJoint();
+//        TrySwingBoost();
+//        UpdatePlayerState();
+//    }
 
     private void CopyJointParameters(Joint2D from, Joint2D to)
     {
@@ -179,24 +155,23 @@ public class PlayerController : MonoBehaviour
 
     private void SwingImmune()
     {
-        bool isSwinging = IsSwingState();
-        bool isDownPressed =
-            (inputType == ePlayerInputType.WASD && Input.GetKey(KeyCode.S)) ||
-            (inputType == ePlayerInputType.ARROW && Input.GetKey(KeyCode.DownArrow));
+        bool isSwinging = otherPlayer.IsSwingState();
 
-        if (isSwinging && isDownPressed)
+        if (inputType == ePlayerInputType.WASD)
         {
-            if(!swingImmune)
-                swingImmune = true;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            if(isSwinging && Input.GetKey(KeyCode.S)) 
+                rb.isKinematic = true;
+
+            if(isSwinging && Input.GetKeyUp(KeyCode.S))
+                rb.isKinematic = false;
         }
         else
         {
-            if(swingImmune)
-            {
-                swingImmune = false;
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            }
+            if (isSwinging && Input.GetKey(KeyCode.DownArrow))
+                rb.isKinematic = true;
+
+            if (isSwinging && Input.GetKeyUp(KeyCode.DownArrow))
+                rb.isKinematic = false;
         }
     }
 
@@ -236,124 +211,216 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UpdateJoint()
+    private IEnumerator Dash(Vector2 dircetion)
     {
-        bool tight = IsRopeTight();
-        bool thisOnAir = !onGround;
-        bool otherOnAir = !otherPlayer.onGround;
-        bool someoneOnAir = thisOnAir || otherOnAir;
+        float originalGravityScale = rb.gravityScale;
+        rb.gravityScale = 0f;
 
-        if (!someoneOnAir)
-        {
-            useSpringJoint = false;
-            EnableDistanceJoint();
-        }
-        else 
-        {
-            useSpringJoint = true;
-            EnableSpringJoint();
-        }
+        rb.velocity = dircetion * dashSpeed;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        rb.gravityScale = originalGravityScale;
+
+        canDash = false;
     }
 
-    private bool IsRopeTight()
-    {
-        float jointLength = useSpringJoint ? springJoint.distance : distanceJoint.distance;
-        float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
-        return (actualLength / jointLength) > 0.95f;
-    }
+    //private void UpdateJoint()
+    //{
+    //    bool tight = IsRopeTight();
+    //    bool thisOnAir = !onGround;
+    //    bool otherOnAir = !otherPlayer.onGround;
+    //    bool someoneOnAir = thisOnAir || otherOnAir;
 
-    private void EnableDistanceJoint()
-    {
-        if(distanceJoint != null && !distanceJoint.enabled)
-            distanceJoint.enabled = true;
-        if(springJoint != null && springJoint.enabled)
-            springJoint.enabled = false;
-    }
+    //    if (!someoneOnAir)
+    //    {
+    //        useSpringJoint = false;
+    //        EnableDistanceJoint();
+    //    }
+    //    else 
+    //    {
+    //        useSpringJoint = true;
+    //        EnableSpringJoint();
+    //    }
+    //}
 
-    private void EnableSpringJoint()
-    {
-        if (springJoint != null && !springJoint.enabled)
-            springJoint.enabled = true;
-        if (distanceJoint != null && distanceJoint.enabled)
-            distanceJoint.enabled = false;
-    }
+    //private bool IsRopeTight()
+    //{
+    //    float jointLength = useSpringJoint ? springJoint.distance : distanceJoint.distance;
+    //    float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
+    //    return (actualLength / jointLength) > 0.95f;
+    //}
+
+    //private void EnableDistanceJoint()
+    //{
+    //    if(distanceJoint != null && !distanceJoint.enabled)
+    //        distanceJoint.enabled = true;
+    //    if(springJoint != null && springJoint.enabled)
+    //        springJoint.enabled = false;
+    //}
+
+    //private void EnableSpringJoint()
+    //{
+    //    if (springJoint != null && !springJoint.enabled)
+    //        springJoint.enabled = true;
+    //    if (distanceJoint != null && distanceJoint.enabled)
+    //        distanceJoint.enabled = false;
+    //}
+
+    //private bool IsSwingState()
+    //{
+    //    if (otherPlayer == null || distanceJoint == null || !distanceJoint.enabled || distanceJoint.connectedBody == null)
+    //        return false;
+
+    //    float jointLength = distanceJoint.distance;
+    //    float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
+    //    bool ropeTight = (jointLength > 0f) && ((actualLength / jointLength) > ropeTensionThreshold);
+
+    //    bool thisOnAir = !onGround;
+    //    bool otherOnAir = !otherPlayer.onGround;
+
+    //    // 둘 다 땅에 있으면 false
+    //    if (onGround && otherPlayer.onGround)
+    //    {
+    //        swingTimer = 0f;
+    //        return false;
+    //    }
+
+    //    // ropeTight+공중인 상태가 일정 시간 이상이어야 swinging true
+    //    if (ropeTight && (thisOnAir || otherOnAir))
+    //    {
+    //        swingTimer += Time.fixedDeltaTime;
+    //        if (swingTimer > swingMinTime)
+    //            return true;
+    //    }
+    //    else
+    //    {
+    //        swingTimer = 0f;
+    //    }
+    //    return false;
+    //}
 
     private bool IsSwingState()
     {
-        if (otherPlayer == null || distanceJoint == null || !distanceJoint.enabled || distanceJoint.connectedBody == null)
-            return false;
+        if(playerState == ePlayerState.Jump && otherPlayer.onGround) return true;
 
-        float jointLength = distanceJoint.distance;
-        float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
-        bool ropeTight = (jointLength > 0f) && ((actualLength / jointLength) > ropeTensionThreshold);
-
-        bool thisOnAir = !onGround;
-        bool otherOnAir = !otherPlayer.onGround;
-
-        // 둘 다 땅에 있으면 false
-        if (onGround && otherPlayer.onGround)
-        {
-            swingTimer = 0f;
-            return false;
-        }
-
-        // ropeTight+공중인 상태가 일정 시간 이상이어야 swinging true
-        if (ropeTight && (thisOnAir || otherOnAir))
-        {
-            swingTimer += Time.fixedDeltaTime;
-            if (swingTimer > swingMinTime)
-                return true;
-        }
-        else
-        {
-            swingTimer = 0f;
-        }
         return false;
     }
 
     private void TrySwingBoost()
     {
-        if (otherPlayer == null) return;
-        if (distanceJoint == null || !distanceJoint.enabled || distanceJoint.connectedBody == null) return;
+        if (otherPlayer == null || otherPlayer.rb == null) return;
+        // if (distanceJoint == null || !distanceJoint.enabled || distanceJoint.connectedBody == null) return;
 
-        float jointLength = distanceJoint.distance;
-        float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
-        bool ropeTight = (jointLength > 0f) && ((actualLength / jointLength) > ropeTensionThreshold);
+        Vector2 centerPos   = otherPlayer.rb.position;
+        Vector2 orbitPos    = rb.position;
+        Vector2 r           = orbitPos - centerPos;
 
-        bool thisOnAir = !onGround;
-        bool otherOnAir = !otherPlayer.onGround;
-        bool swing = ropeTight && (thisOnAir || otherOnAir);
+        float radius = (distanceJoint != null && distanceJoint.enabled) ? distanceJoint.distance : otherPlayer.distanceJoint.distance;
+        if (radius <= 0f) return;
+        
+        Vector2 rHat = r.normalized;
+        
+        Vector2 tangentCCW  = new Vector2(-rHat.y, rHat.x);
+        Vector2 tangentCW   = new Vector2(rHat.y, -rHat.x);
 
-        // "회전 가속" 입력 처리 (←/→ 또는 A/D)
-        float inputDir = 0f;
-        if (inputType == ePlayerInputType.WASD)
+        
+        float swingDir = 0f;
+        if(inputType == ePlayerInputType.WASD)
         {
-            if (Input.GetKey(KeyCode.A)) inputDir = -1f;
-            if (Input.GetKey(KeyCode.D)) inputDir = 1f;
+            if (Input.GetKey(KeyCode.A)) swingDir = -1f;
+            else if (Input.GetKey(KeyCode.D)) swingDir = 1f;
         }
         else
         {
-            if (Input.GetKey(KeyCode.LeftArrow)) inputDir = -1f;
-            if (Input.GetKey(KeyCode.RightArrow)) inputDir = 1f;
+            if (Input.GetKey(KeyCode.RightArrow)) swingDir = -1f;
+            else if (Input.GetKey(KeyCode.LeftArrow)) swingDir = 1f;
         }
 
-        // 스윙 중 & 방향키 입력 중이면 매 프레임마다 토크 가속
-        if (swing && Mathf.Abs(inputDir) > 0.1f)
-        {
-            float torque = swingTorque * inputDir;
-            rb.AddTorque(torque, ForceMode2D.Force); // Force(=연속), Impulse(=짧게)
-                                                     // 속도 제한
-            if (Mathf.Abs(rb.angularVelocity) > maxAngularVelocity)
-                rb.angularVelocity = Mathf.Sign(rb.angularVelocity) * maxAngularVelocity;
-        }
+        if (swingDir == 0f) return;
+
+        Vector2 chosenTangent = (swingDir > 0f) ? tangentCCW : tangentCW;
+        //if (tangentialSpeed >= maxAngularVelocity) return;
+        
+        float v_tan = Vector2.Dot(rb.velocity, chosenTangent);
+        float maxLinearSpeed = maxAngularVelocity * radius;
+
+        if (v_tan > maxLinearSpeed) return;
+
+        rb.AddForce(chosenTangent * swingPower, ForceMode2D.Force);
+
+        //if (otherPlayer == null) return;
+        //if (distanceJoint == null || !distanceJoint.enabled || distanceJoint.connectedBody == null) return;
+
+        //float jointLength = distanceJoint.distance;
+        //float actualLength = Vector2.Distance(rb.position, otherPlayer.rb.position);
+        //bool ropeTight = (jointLength > 0f) && ((actualLength / jointLength) > ropeTensionThreshold);
+
+        //bool thisOnAir = !onGround;
+        //bool otherOnAir = !otherPlayer.onGround;
+        //bool swing = ropeTight && (thisOnAir || otherOnAir);
+
+        //// "회전 가속" 입력 처리 (←/→ 또는 A/D)
+        //float inputDir = 0f;
+        //if (inputType == ePlayerInputType.WASD)
+        //{
+        //    if (Input.GetKey(KeyCode.A))
+        //    {
+        //        rb.gravityScale = 0f;
+        //        inputDir = -1f;
+        //        Vector2 toCenter = otherPlayer.rb.position - rb.position;
+        //        Vector2 tangent = new Vector2(toCenter.y, -toCenter.x).normalized;
+
+        //        float tangentialSpeed = Vector2.Dot(rb.velocity, tangent);
+
+        //        if (tangentialSpeed < maxAngularVelocity)
+        //            rb.AddForce(tangent * swingPower * inputDir);
+        //    }
+        //    if (Input.GetKey(KeyCode.D)) 
+        //    {
+        //        inputDir = 1f; 
+        //        Vector2 toCenter = otherPlayer.rb.position - rb.position;
+        //        Vector2 tangent = new Vector2(toCenter.y, -toCenter.x).normalized;
+
+        //        float tangentialSpeed = Vector2.Dot(rb.velocity, tangent);
+
+        //        if (tangentialSpeed < maxAngularVelocity)
+        //            rb.AddForce(tangent * swingPower * inputDir); 
+        //    }
+        //}
+        //else
+        //{
+        //    if (Input.GetKey(KeyCode.LeftArrow))
+        //    {
+        //        inputDir = -1f;
+        //        Vector2 toCenter = otherPlayer.rb.position - rb.position;
+        //        Vector2 tangent = new Vector2(toCenter.y, -toCenter.x).normalized;
+
+        //        float tangentialSpeed = Vector2.Dot(rb.velocity, tangent);
+
+        //        if (tangentialSpeed < maxAngularVelocity)
+        //            rb.AddForce(tangent * swingPower * inputDir);
+        //    }
+        //    if (Input.GetKey(KeyCode.RightArrow))
+        //    {
+        //        inputDir = 1f;
+        //        Vector2 toCenter = otherPlayer.rb.position - rb.position;
+        //        Vector2 tangent = new Vector2(toCenter.y, -toCenter.x).normalized;
+
+        //        float tangentialSpeed = Vector2.Dot(rb.velocity, tangent);
+
+        //        if (tangentialSpeed < maxAngularVelocity)
+        //            rb.AddForce(tangent * swingPower * inputDir);
+        //    }
+        //}   
     }
 
     private void UpdatePlayerState()
     {
-        if (onGround)
-            playerState = ePlayerState.Idle;
-        else if (playerState != ePlayerState.Jump)
-            playerState = ePlayerState.OnAir;
+            if (onGround)
+                playerState = ePlayerState.Idle;
+            else
+                playerState = ePlayerState.Jump; 
     }
 
     private void ClampRotation()
