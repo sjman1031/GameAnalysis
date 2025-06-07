@@ -9,6 +9,8 @@ public class Saveable : MonoBehaviour
     public string id;
     public List<ConnectionEntry> connections;
 
+    public bool isSaveable = true;
+
     private void Reset()
     {
         //var col = GetComponent<Collider>();
@@ -29,7 +31,7 @@ public class Saveable : MonoBehaviour
                 continue;
             }
 
-            entry.action.Execute(gameObject, entry.target.gameObject);
+            entry.action.Execute(collision.gameObject, entry.target.gameObject);
         }
     }
 }

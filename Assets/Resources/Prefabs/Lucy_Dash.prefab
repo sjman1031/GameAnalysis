@@ -122,3 +122,4 @@ MonoBehaviour:
   prefabName: Lucy_Dash
   id: 
   connections: []
+  isSaveable: 1

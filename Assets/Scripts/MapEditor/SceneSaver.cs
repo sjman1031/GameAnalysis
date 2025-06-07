@@ -76,7 +76,7 @@ public class SceneSaver : MonoBehaviour
             mapData.tileMapLayers.Add(layer);
         }
 
-        var saveables = FindObjectsOfType<Saveable>(includeInactive: true).OrderBy(s => s.name).ToArray();
+        var saveables = FindObjectsOfType<Saveable>(includeInactive: true).Where(s => s.isSaveable).OrderBy(s => s.name).ToArray();
         var lookup = new Dictionary<Saveable, ObjectData>();
 
         for(int i = 0; i < saveables.Length; i++)

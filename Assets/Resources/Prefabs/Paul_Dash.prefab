@@ -122,3 +122,4 @@ MonoBehaviour:
   prefabName: Paul_Dash
   id: 
   connections: []
+  isSaveable: 1

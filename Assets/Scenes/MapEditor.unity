@@ -8536,6 +8536,18 @@ PrefabInstance:
       propertyPath: m_MaxDistanceOnly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8779358353814031442, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779358353814031442, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
+      propertyPath: m_Size.y
+      value: 0.01875886
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779358353814031442, guid: c2ff2ad1106dff24c969cf875f753b3f, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.024529291
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

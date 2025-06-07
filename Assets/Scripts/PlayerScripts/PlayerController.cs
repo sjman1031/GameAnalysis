@@ -2,6 +2,8 @@ using UnityEngine;
 using Unity.Mathematics;
 using System.Xml.Serialization;
 using System.Collections;
+using System.Reflection;
+
 
 
 
@@ -68,12 +70,7 @@ public class PlayerController : MonoBehaviour
 
         playerState = ePlayerState.Idle;
         isJointHolder = (this.name == "Lucy");
-    }
 
-    private void Start()
-    {
-        //Debug.Log($"{this.name} position: {transform.position}");
-        //Debug.Log($"{this.name} velocity: {rb.velocity}");
 
         if (otherPlayer == null)
         {
@@ -86,11 +83,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Application.targetFrameRate = 120;
+
+        //Debug.Log($"{this.name} position: {transform.position}");
+        //Debug.Log($"{this.name} velocity: {rb.velocity}");
+    }
+
     private void Update()
     {
 #if PHOTON_UNITY_NETWORKING
-        if (!pv.IsMine && pv != null) return;
+        if (!pv.IsMine && pv != null && PhotonNetwork.IsConnected) return;
 #endif
+
+        if(otherPlayer == null)
+        {
+            foreach (var pc in FindObjectsOfType<PlayerController>())
+                if (pc != null)
+                    if (pc != this) otherPlayer = pc;
+
+
+            //Debug.Log($"{this.name} otherPlayer: {otherPlayer.name}");
+        }
 
         if (!IsSwingState())
         {

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class InteractionAction : ScriptableObject
@@ -61,12 +62,33 @@ public class ActivateDashAction : InteractionAction
             return;
         }
 
-        source.GetComponent<PlayerController>().canDash = true;
+        if (this.name == "Lucy_Dash")
+        {
+            if (source.name == "Lucy")
+            {
+                source.GetComponent<PlayerController>().canDash = true;
+                Destroy(this);
+            }
+        }
+        else if (this.name == "Paul_Dash")
+        {
+            if (source.name == "Lucy")
+            {
+                source.GetComponent<PlayerController>().canDash = true;
+                Destroy(this);
+            }
+        }
+        else if(this.name =="Common_Dash")
+        {
+            source.GetComponent<PlayerController>().canDash = true;
+            Destroy (this);
+        }
+            
         Debug.Log($"{source.name} Dash È°¼ºÈ­");
     }
 }
 
-[CreateAssetMenu(menuName = "Actions/ExtenRopeLengthAction")]
+[CreateAssetMenu(menuName = "Actions/ExtendRopeLengthAction")]
 public class ExtendLengthAction : InteractionAction
 {
     public override void Execute(GameObject source, GameObject target)

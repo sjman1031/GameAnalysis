@@ -51,6 +51,7 @@ MonoBehaviour:
   prefabName: Platform_3
   id: 
   connections: []
+  isSaveable: 1
 --- !u!61 &4387106599661362650
 BoxCollider2D:
   m_ObjectHideFlags: 0

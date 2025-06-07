@@ -122,3 +122,4 @@ MonoBehaviour:
   prefabName: Common_Button
   id: 
   connections: []
+  isSaveable: 1

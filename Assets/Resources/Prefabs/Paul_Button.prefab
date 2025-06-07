@@ -123,6 +123,7 @@ MonoBehaviour:
   prefabName: Paul_Button
   id: 
   connections: []
+  isSaveable: 1
 --- !u!61 &8985351054521009524
 BoxCollider2D:
   m_ObjectHideFlags: 0
