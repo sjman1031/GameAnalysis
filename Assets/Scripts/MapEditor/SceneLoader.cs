@@ -46,7 +46,7 @@ public class SceneLoader : MonoBehaviour
             var tmRenderer = layerGO.AddComponent<TilemapRenderer>();
             layerGO.AddComponent<Rigidbody2D>().isKinematic = true;
             layerGO.AddComponent<TilemapCollider2D>();
-            layerGO.GetComponent<TilemapCollider2D>().sharedMaterial = mat;
+            layerGO.GetComponent<Rigidbody2D>().sharedMaterial = mat;
             layerGO.transform.tag = "Ground";
 
             //Vector3 curCorner = tmRenderer.bounds.min;

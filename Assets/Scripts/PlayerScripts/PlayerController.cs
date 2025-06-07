@@ -214,9 +214,9 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         bool jumpPressed = false;
-        if (inputType == ePlayerInputType.WASD && Input.GetKey(KeyCode.W))
+        if (inputType == ePlayerInputType.WASD && Input.GetKeyDown(KeyCode.W))
             jumpPressed = true;
-        if (inputType == ePlayerInputType.ARROW && Input.GetKey(KeyCode.UpArrow))
+        if (inputType == ePlayerInputType.ARROW && Input.GetKeyDown(KeyCode.UpArrow))
             jumpPressed = true;
 
         if (jumpPressed && onGround)
