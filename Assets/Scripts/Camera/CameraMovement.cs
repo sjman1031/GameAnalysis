@@ -19,7 +19,8 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (player1 == null || player2 == null) return;
+        if (player1 == null) player1 = GameObject.Find("Lucy").transform;
+        if (player2 == null) player2 = GameObject.Find("Paul").transform;
 
         Vector3 centerPoint = (player1.position + player2.position) * 0.5f;
         Vector3 desiredPosition = new Vector3(centerPoint.x, centerPoint.y, transform.position.z);
