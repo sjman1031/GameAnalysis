@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Open Wall
   m_EditorClassIdentifier: Assembly-CSharp::OpenWallAction
-  openHeigt: 5
+  openHeight: 5
   openDuration: 1
