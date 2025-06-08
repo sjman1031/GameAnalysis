@@ -12267,10 +12267,26 @@
       ]
     },
     {
-      "mapName": "new1",
+      "mapName": "test1",
       "objects": [
         {
           "id": "1",
+          "prefabName": "box",
+          "instanceName": "box",
+          "posX": 10.29,
+          "posY": -0.0262499712,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 0.25,
+          "scaleY": 0.25,
+          "scaleZ": 1.0,
+          "connections": [],
+          "isActive": true
+        },
+        {
+          "id": "2",
           "prefabName": "Extend_Length",
           "instanceName": "goal",
           "posX": 55.58,
@@ -12286,7 +12302,7 @@
           "isActive": true
         },
         {
-          "id": "2",
+          "id": "3",
           "prefabName": "",
           "instanceName": "Grid",
           "posX": 0.0,
@@ -12302,27 +12318,11 @@
           "isActive": true
         },
         {
-          "id": "3",
-          "prefabName": "Paul_Button",
-          "instanceName": "Paul_Button",
-          "posX": 2.73476768,
-          "posY": -0.603732347,
-          "posZ": 0.0,
-          "rotX": 0.0,
-          "rotY": 0.0,
-          "rotZ": 0.0,
-          "scaleX": 1.0,
-          "scaleY": 1.0,
-          "scaleZ": 1.0,
-          "connections": [],
-          "isActive": false
-        },
-        {
           "id": "4",
-          "prefabName": "Platform_3",
-          "instanceName": "Platform_3",
-          "posX": 11.83,
-          "posY": -1.48,
+          "prefabName": "Lucy_Button",
+          "instanceName": "Lucy_Button",
+          "posX": -8.488239,
+          "posY": 0.763683558,
           "posZ": 0.0,
           "rotX": 0.0,
           "rotY": 0.0,
@@ -12330,11 +12330,33 @@
           "scaleX": 1.0,
           "scaleY": 1.0,
           "scaleZ": 1.0,
-          "connections": [],
-          "isActive": false
+          "connections": [
+            {
+              "sourceId": "4",
+              "targetId": "5",
+              "actionType": "Active Platform"
+            }
+          ],
+          "isActive": true
         },
         {
           "id": "5",
+          "prefabName": "Platform_3",
+          "instanceName": "Platform_3",
+          "posX": -2.847611,
+          "posY": 3.59802818,
+          "posZ": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "scaleZ": 1.0,
+          "connections": [],
+          "isActive": false
+        },
+        {
+          "id": "6",
           "prefabName": "Player",
           "instanceName": "Player",
           "posX": 0.0,
@@ -15626,7 +15648,7 @@
             {
               "x": 23,
               "y": 9,
-              "tileName": "TileGround1"
+              "tileName": "null"
             },
             {
               "x": 23,
@@ -15766,7 +15788,7 @@
             {
               "x": 24,
               "y": 9,
-              "tileName": "TileGround1"
+              "tileName": "null"
             },
             {
               "x": 24,
@@ -15906,7 +15928,7 @@
             {
               "x": 25,
               "y": 9,
-              "tileName": "TileGround1"
+              "tileName": "null"
             },
             {
               "x": 25,
@@ -16046,7 +16068,7 @@
             {
               "x": 26,
               "y": 9,
-              "tileName": "TileGround1"
+              "tileName": "null"
             },
             {
               "x": 26,
@@ -17021,12 +17043,12 @@
             {
               "x": 33,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround4"
             },
             {
               "x": 33,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround1"
             },
             {
               "x": 33,
@@ -17161,22 +17183,22 @@
             {
               "x": 34,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 34,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround11"
             },
             {
               "x": 34,
               "y": 10,
-              "tileName": "null"
+              "tileName": "TileGround4"
             },
             {
               "x": 34,
               "y": 11,
-              "tileName": "null"
+              "tileName": "TileGround1"
             },
             {
               "x": 34,
@@ -17301,32 +17323,32 @@
             {
               "x": 35,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 35,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 35,
               "y": 10,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 35,
               "y": 11,
-              "tileName": "null"
+              "tileName": "TileGround11"
             },
             {
               "x": 35,
               "y": 12,
-              "tileName": "null"
+              "tileName": "TileGround4"
             },
             {
               "x": 35,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround1"
             },
             {
               "x": 35,
@@ -17441,32 +17463,32 @@
             {
               "x": 36,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 36,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 36,
               "y": 10,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 36,
               "y": 11,
-              "tileName": "null"
+              "tileName": "TileGround10"
             },
             {
               "x": 36,
               "y": 12,
-              "tileName": "null"
+              "tileName": "TileGround6"
             },
             {
               "x": 36,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround3"
             },
             {
               "x": 36,
@@ -17581,22 +17603,22 @@
             {
               "x": 37,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround5"
             },
             {
               "x": 37,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround10"
             },
             {
               "x": 37,
               "y": 10,
-              "tileName": "null"
+              "tileName": "TileGround6"
             },
             {
               "x": 37,
               "y": 11,
-              "tileName": "null"
+              "tileName": "TileGround3"
             },
             {
               "x": 37,
@@ -17721,12 +17743,12 @@
             {
               "x": 38,
               "y": 8,
-              "tileName": "null"
+              "tileName": "TileGround6"
             },
             {
               "x": 38,
               "y": 9,
-              "tileName": "null"
+              "tileName": "TileGround3"
             },
             {
               "x": 38,
@@ -18586,12 +18608,12 @@
             {
               "x": 44,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround20"
             },
             {
               "x": 44,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround14"
             },
             {
               "x": 44,
@@ -18726,12 +18748,12 @@
             {
               "x": 45,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround21"
             },
             {
               "x": 45,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround15"
             },
             {
               "x": 45,
@@ -18866,12 +18888,12 @@
             {
               "x": 46,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround22"
             },
             {
               "x": 46,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround16"
             },
             {
               "x": 46,
@@ -20406,12 +20428,12 @@
             {
               "x": 57,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround20"
             },
             {
               "x": 57,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround14"
             },
             {
               "x": 57,
@@ -20546,12 +20568,12 @@
             {
               "x": 58,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround21"
             },
             {
               "x": 58,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround15"
             },
             {
               "x": 58,
@@ -20686,12 +20708,12 @@
             {
               "x": 59,
               "y": 13,
-              "tileName": "null"
+              "tileName": "TileGround22"
             },
             {
               "x": 59,
               "y": 14,
-              "tileName": "null"
+              "tileName": "TileGround16"
             },
             {
               "x": 59,

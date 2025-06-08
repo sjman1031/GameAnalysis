@@ -21,8 +21,8 @@ public class OpenWallAction : InteractionAction
 
     private IEnumerator OpenRoutine(Transform wallTransform)
     {
-        Vector3 start   = wallTransform.position; 
-        Vector3 end     = start + Vector3.up * openHeight;
+        Vector3 start = wallTransform.position;
+        Vector3 end = start + Vector3.up * openHeight;
 
         float t = 0;
         while (t < openDuration)
@@ -41,13 +41,13 @@ public class ActivatePlatformAction : InteractionAction
 {
     public override void Execute(GameObject source, GameObject target)
     {
-        if(target == null)
+        if (target == null)
         {
             Debug.LogWarning("ActivatePlatformAction: target이 설정되지 않았습니다.");
             return;
         }
 
-        target.SetActive(true); 
+        target.SetActive(true);
     }
 }
 
@@ -56,7 +56,7 @@ public class ActivateDashAction : InteractionAction
 {
     public override void Execute(GameObject source, GameObject target)
     {
-        if(source.GetComponent<PlayerController>() == null)
+        if (source.GetComponent<PlayerController>() == null)
         {
             Debug.LogWarning("ActivateDashAction: PlayerController가 없습니다.");
             return;
@@ -82,11 +82,11 @@ public class ActivateDashAction : InteractionAction
                 return;
             }
         }
-        else if(this.name =="Common_Dash")
+        else if (this.name == "Common_Dash")
         {
             source.GetComponent<PlayerController>().canDash = true;
             Debug.Log($"{source.name} Dash 활성화");
-            Destroy (this);
+            Destroy(this);
             return;
         }
     }
@@ -99,7 +99,7 @@ public class ExtendRopeLengthAction : InteractionAction
     {
         GameObject lucyGO = GameObject.Find("Lucy");
 
-        if(lucyGO == null)
+        if (lucyGO == null)
         {
             Debug.LogWarning("ExtendLengthAction: Lucy GameObject가 없습니다.");
             return;
