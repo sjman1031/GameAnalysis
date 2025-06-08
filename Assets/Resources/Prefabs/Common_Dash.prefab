@@ -122,7 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Common_Dash
   id: 
-  connections: []
+  connections:
+  - target: {fileID: 0}
+    action: {fileID: 0}
   isSaveable: 1
 --- !u!61 &8912303794513199369
 BoxCollider2D:

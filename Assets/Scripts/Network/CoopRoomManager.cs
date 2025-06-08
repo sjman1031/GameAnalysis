@@ -25,6 +25,6 @@ public class CoopRoomManager : MonoBehaviourPunCallbacks
 
     void StartGame()
     {
-        PhotonNetwork.LoadLevel("")
+        PhotonNetwork.LoadLevel("");
     }
 }

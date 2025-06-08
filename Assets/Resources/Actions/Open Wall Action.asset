@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: New Activate Dash
-  m_EditorClassIdentifier: Assembly-CSharp::ActivateDashAction
+  m_Script: {fileID: 11500000, guid: 81a5177ca2d736940b24001d964a2c49, type: 3}
+  m_Name: Open Wall Action
+  m_EditorClassIdentifier: 
+  openHeight: 5
+  openDuration: 1

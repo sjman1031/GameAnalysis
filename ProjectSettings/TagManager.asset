@@ -10,6 +10,9 @@ TagManager:
   - Red
   - Head
   - Foot
+  - Common
+  - Lucy
+  - Paul
   layers:
   - Default
   - TransparentFX

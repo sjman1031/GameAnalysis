@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9093269168920531846}
   - component: {fileID: 5641545970869797541}
-  - component: {fileID: 7618860711079216865}
   - component: {fileID: 6754609990034697927}
   - component: {fileID: 2942596613784114802}
+  - component: {fileID: -1638182423811813212}
   m_Layer: 0
   m_Name: box
   m_TagString: Ground
@@ -87,22 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7618860711079216865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9013658297843040566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a649aef70c4834ba9562d7b241fbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabName: box
-  id: 
-  connections: []
-  isSaveable: 1
 --- !u!50 &6754609990034697927
 Rigidbody2D:
   serializedVersion: 4
@@ -119,7 +103,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4710ade4303b111459117b0c10c8c998, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -175,3 +159,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 7.87, y: 7.67}
   m_EdgeRadius: 0
+--- !u!114 &-1638182423811813212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9013658297843040566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a649aef70c4834ba9562d7b241fbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabName: 
+  id: 
+  connections: []
+  isSaveable: 1

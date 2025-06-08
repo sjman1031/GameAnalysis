@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8985351054521009524}
   m_Layer: 0
   m_Name: Paul_Button
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Paul_Button
   id: 
-  connections: []
+  connections:
+  - target: {fileID: 0}
+    action: {fileID: 11400000, guid: 658c1d05bf2c9584093db624e578d1e4, type: 2}
   isSaveable: 1
 --- !u!61 &8985351054521009524
 BoxCollider2D:

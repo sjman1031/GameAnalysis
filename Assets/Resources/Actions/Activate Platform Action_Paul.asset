@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Open Wall
-  m_EditorClassIdentifier: Assembly-CSharp::OpenWallAction
-  openHeight: 5
-  openDuration: 1
+  m_Script: {fileID: 11500000, guid: b6f038078f169554f8a18f2f4696b00d, type: 3}
+  m_Name: Activate Platform Action_Paul
+  m_EditorClassIdentifier: 
+  type: 1
