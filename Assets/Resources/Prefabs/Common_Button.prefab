@@ -121,5 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Common_Button
   id: 
-  connections: []
+  connections:
+  - target: {fileID: 0}
+    action: {fileID: 0}
   isSaveable: 1

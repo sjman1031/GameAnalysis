@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public float swingThreshold = 0.97f;
     public float swingPower = 10f;
     public float maxAngularVelocity = 200f;
+    public bool isSwingActive = false;
+    public bool isBelow = false;
 
     [Header("Joint Options")]
     public DistanceJoint2D distanceJoint;
@@ -327,7 +329,7 @@ public class PlayerController : MonoBehaviour
             return playerState == ePlayerState.Jump
                 && otherPlayer.onGround
                 && Vector3.Distance(rb.position, otherPlayer.rb.position)
-                >= otherPlayer.distanceJoint.distance * swingThreshold;
+                >= otherPlayer.distanceJoint.distance * swingThreshold;           
     }
 
     private void TrySwingBoost()

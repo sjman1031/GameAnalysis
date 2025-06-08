@@ -16,7 +16,7 @@ public class OpenWallAction : InteractionAction
 
     public override void Execute(GameObject source, GameObject target)
     {
-        CoroutineRunner.Instance.StartCoroutine(OpenRoutine(target.transform));
+        CoroutineRunner.Instance.Run(OpenRoutine(target.transform));
     }
 
     private IEnumerator OpenRoutine(Transform wallTransform)
@@ -67,29 +67,33 @@ public class ActivateDashAction : InteractionAction
             if (source.name == "Lucy")
             {
                 source.GetComponent<PlayerController>().canDash = true;
+                Debug.Log($"{source.name} Dash 활성화");
                 Destroy(this);
+                return;
             }
         }
         else if (this.name == "Paul_Dash")
         {
-            if (source.name == "Lucy")
+            if (source.name == "Paul")
             {
                 source.GetComponent<PlayerController>().canDash = true;
+                Debug.Log($"{source.name} Dash 활성화");
                 Destroy(this);
+                return;
             }
         }
         else if(this.name =="Common_Dash")
         {
             source.GetComponent<PlayerController>().canDash = true;
+            Debug.Log($"{source.name} Dash 활성화");
             Destroy (this);
+            return;
         }
-            
-        Debug.Log($"{source.name} Dash 활성화");
     }
 }
 
 [CreateAssetMenu(menuName = "Actions/ExtendRopeLengthAction")]
-public class ExtendLengthAction : InteractionAction
+public class ExtendRopeLengthAction : InteractionAction
 {
     public override void Execute(GameObject source, GameObject target)
     {
