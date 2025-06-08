@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsSwingState()
     {
-        if(isJointHolder)
+        if (isJointHolder)
             return playerState == ePlayerState.Jump
                 && otherPlayer.onGround
                 && Vector3.Distance(rb.position, otherPlayer.rb.position)
