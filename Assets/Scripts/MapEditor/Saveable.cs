@@ -20,8 +20,6 @@ public class Saveable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player") return;
-
         foreach (var entry in connections)
         {
             if (entry.target == null || entry.action == null)

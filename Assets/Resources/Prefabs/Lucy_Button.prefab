@@ -45,7 +45,7 @@ Animator:
   m_GameObject: {fileID: 6011809616948888636}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 62ae6fbe4ee17ffd18ed08912d3d7c58, type: 2}
+  m_Controller: {fileID: 9100000, guid: 226f62c4c117bc85c0be25c06b0668dd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -155,7 +155,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

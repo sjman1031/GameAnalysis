@@ -43,23 +43,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);    
     }
 
-    public void SaveStageClear(string stageName, float clearTime)
+    public void SaveStageClear()
     {
-        if(!mapClearData.ContainsKey(stageName))
-            mapClearData[stageName] = new List<MapClearData>();
-
-        MapClearData data;
-        if (mapClearData[stageName].Count > 0)
-            data = mapClearData[stageName][mapClearData[stageName].Count - 1];
-        else
-        {
-            data = new MapClearData();
-            mapClearData[stageName].Add(data);
-        }
-
-        data.triedCount += 1;
-        data.clearTime= clearTime;
-
-        DataManager.Instance.SaveData(mapClearData, "StageClearData.json");
     }
 }
