@@ -1,12 +1,5 @@
 using UnityEngine;
-using Unity.Mathematics;
-using System.Xml.Serialization;
 using System.Collections;
-using System.Reflection;
-
-
-
-
 #if PHOTON_UNITY_NETWORKING
 using Photon.Pun;
 #endif
@@ -15,9 +8,10 @@ public enum ePlayerInputType { WASD, ARROW }
 public enum ePlayerState { Idle, Jump }
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class PlayerController : MonoBehaviour
 #if PHOTON_UNITY_NETWORKING
-    , IPunObservable
+public class PlayerController : MonoBehaviourPun, IPunObservable
+#else
+public class PlayerController : MonoBehaviour
 #endif
 {
     // public Transform arrow; 
@@ -56,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private float swingTimer = 0f;
     private const float swingMinTime = 2f;
+
+    private Transform lucy, paul;
 
 #if PHOTON_UNITY_NETWORKING
     private PhotonView pv;
