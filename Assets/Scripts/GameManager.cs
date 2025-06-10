@@ -46,4 +46,9 @@ public class GameManager : MonoBehaviour
     public void SaveStageClear()
     {
     }
+
+    private void Update()
+    {
+        
+    }
 }

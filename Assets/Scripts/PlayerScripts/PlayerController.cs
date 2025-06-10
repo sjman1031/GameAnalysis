@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public enum ePlayerInputType { WASD, ARROW }
 public enum ePlayerState { Idle, Jump }
+public enum eNetworkState { OffLine, OnLine }
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 #if PHOTON_UNITY_NETWORKING
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private bool swingImmune = false;
 
+    public eNetworkState networkState = eNetworkState.OffLine;
+
     public Rigidbody2D rb;
     public PlayerController otherPlayer;
     public bool onGround = false;
@@ -64,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
 #if PHOTON_UNITY_NETWORKING
         pv = GetComponent<PhotonView>();
+        networkState = eNetworkState.OnLine;
 #endif
 
         playerState = ePlayerState.Idle;
@@ -103,6 +107,12 @@ public class PlayerController : MonoBehaviour
 
 
             //Debug.Log($"{this.name} otherPlayer: {otherPlayer.name}");
+        }
+
+        if(networkState == eNetworkState.OnLine)
+        {
+            if (PhotonNetwork.IsMasterClient && this.name != "Lucy") return;
+            if (!PhotonNetwork.IsMasterClient && this.name != "Paul") return; 
         }
 
         if (!IsSwingState())

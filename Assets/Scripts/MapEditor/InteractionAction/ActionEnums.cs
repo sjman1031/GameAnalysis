@@ -1,0 +1,1 @@
+public enum eObjectType { Lucy, Paul, Common, NULL };

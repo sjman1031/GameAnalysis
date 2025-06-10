@@ -2,10 +2,12 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Actions/ActivatePlatformAction")]
 public class ActivatePlatformAction : InteractionAction
-{
-    public enum eObjectType { Lucy, Paul, Common, NULL };
+{ 
+    public enum eObject { Button, Lever, NULL }
 
     public eObjectType type = eObjectType.NULL;
+    public eObject thisObject = eObject.NULL;
+    public int cnt = 0;
 
     public void UsePlatform(GameObject target)
     {
@@ -31,6 +33,9 @@ public class ActivatePlatformAction : InteractionAction
             return;
         }
 
+        if (cnt >= 1 && thisObject == eObject.Button)
+            return;
+
         if (type == eObjectType.Lucy && source.name == "Lucy")
             UsePlatform(target);
         else if (type == eObjectType.Paul && source.name == "Paul")
@@ -38,5 +43,6 @@ public class ActivatePlatformAction : InteractionAction
         else if (type == eObjectType.Common)
             UsePlatform(target);
 
+        cnt++;
     }
 }

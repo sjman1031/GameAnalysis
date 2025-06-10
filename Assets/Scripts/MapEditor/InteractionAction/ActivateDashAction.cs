@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Actions/ActivateDashAction")]
 public class ActivateDashAction : InteractionAction
 {
+    public eObjectType type = eObjectType.NULL;
+
     public override void Execute(GameObject source, GameObject target)
     {
         if (source.GetComponent<PlayerController>() == null)
@@ -12,7 +14,7 @@ public class ActivateDashAction : InteractionAction
             return;
         }
 
-        if (this.name == "Lucy_Dash")
+        if (type == eObjectType.Lucy)
         {
             if (source.name == "Lucy")
             {
@@ -22,7 +24,7 @@ public class ActivateDashAction : InteractionAction
                 return;
             }
         }
-        else if (this.name == "Paul_Dash")
+        else if (type == eObjectType.Paul)
         {
             if (source.name == "Paul")
             {
@@ -32,7 +34,7 @@ public class ActivateDashAction : InteractionAction
                 return;
             }
         }
-        else if (this.name == "Common_Dash")
+        else
         {
             source.GetComponent<PlayerController>().canDash = true;
             Debug.Log($"{source.name} Dash È°¼ºÈ­");

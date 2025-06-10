@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0066a3ad59ab5147888a32904b523c5, type: 3}
   m_Name: Activate Dash Action
   m_EditorClassIdentifier: 
+  type: 0
