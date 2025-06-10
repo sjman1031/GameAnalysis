@@ -18,6 +18,19 @@ public class Saveable : MonoBehaviour
         //    col.isTrigger = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        foreach (var entry in connections)
+        {
+            if (entry.target == null || entry.action == null)
+            {
+                Debug.LogWarning($"[{name}] ConnectionEntry가 비어있습니다.");
+                continue;
+            }
+
+            entry.action.Execute(collision.gameObject, entry.target.gameObject);
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
