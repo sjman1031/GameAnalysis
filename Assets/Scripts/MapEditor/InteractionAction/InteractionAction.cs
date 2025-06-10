@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class InteractionAction : ScriptableObject
 {
-    public abstract void Execute(GameObject source, GameObject target);
+    public abstract bool Execute(GameObject source, GameObject target);
 }

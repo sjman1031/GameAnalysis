@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed      = 30f;
     public float dashDuration   = 0.2f;
     public bool canDash         = false;
+    public KeyCode dashKey      = KeyCode.None;
 
     [Header("Swing")]
     public float swingThreshold = 0.97f;
@@ -67,7 +68,6 @@ public class PlayerController : MonoBehaviour
 
 #if PHOTON_UNITY_NETWORKING
         pv = GetComponent<PhotonView>();
-        networkState = eNetworkState.OnLine;
 #endif
 
         playerState = ePlayerState.Idle;
@@ -127,13 +127,13 @@ public class PlayerController : MonoBehaviour
         if (canDash)
         {
             Vector2 dircetion = Vector2.zero;
-            if (inputType == ePlayerInputType.WASD && Input.GetKeyDown(KeyCode.RightShift))
+            if (inputType == ePlayerInputType.WASD && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 dircetion = rb.velocity.normalized;
                 StartCoroutine(Dash(dircetion));
             }
 
-            else if (inputType == ePlayerInputType.ARROW && Input.GetKeyDown(KeyCode.LeftShift))
+            else if (inputType == ePlayerInputType.ARROW && Input.GetKeyDown(KeyCode.RightShift))
             {
                 dircetion = rb.velocity.normalized;
                 StartCoroutine(Dash(dircetion));

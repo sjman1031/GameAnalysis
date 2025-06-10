@@ -13,6 +13,8 @@ TagManager:
   - Common
   - Lucy
   - Paul
+  - Dash
+  - Extend
   layers:
   - Default
   - TransparentFX

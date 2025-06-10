@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6107873936299437084}
   - component: {fileID: 3991620357258612871}
   - component: {fileID: 5970782550826941456}
-  - component: {fileID: 763791194791603758}
   m_Layer: 0
   m_Name: Common_Button
   m_TagString: Ground
@@ -126,6 +125,7 @@ MonoBehaviour:
   connections:
   - target: {fileID: 0}
     action: {fileID: 11400000, guid: ff5930f220d8ef14ca79dd1901cff33a, type: 2}
+  isTriggered: 0
   isSaveable: 1
 --- !u!61 &5970782550826941456
 BoxCollider2D:
@@ -172,16 +172,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0236287, y: 0.65247405}
   m_EdgeRadius: 0
---- !u!114 &763791194791603758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324648283864387355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fec9f09f89197894bbeedb20d9a22fd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  count: 0

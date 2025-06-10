@@ -19,8 +19,16 @@ public class Saveable : MonoBehaviour
         //    col.isTrigger = true;
     }
 
+    private void Awake()
+    {
+        isTriggered = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag != "Player") return;
+
+
         foreach (var entry in connections)
         {
             if (entry.target == null || entry.action == null)
@@ -31,8 +39,13 @@ public class Saveable : MonoBehaviour
 
             if (!isTriggered)
             {
-                entry.action.Execute(collision.gameObject, entry.target.gameObject);
-                isTriggered = true;
+                if (entry.action.Execute(collision.gameObject, entry.target.gameObject))
+                {
+                    isTriggered = true;
+
+                    if (this.tag == "Dash" || this.tag == "Extend")
+                        Destroy(this.gameObject);
+                }
             }
         }
     }

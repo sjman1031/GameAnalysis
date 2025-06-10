@@ -8,9 +8,10 @@ public class OpenWallAction : InteractionAction
     public float openHeight = 5f;
     public float openDuration = 1f;
 
-    public override void Execute(GameObject source, GameObject target)
+    public override bool Execute(GameObject source, GameObject target)
     {
         CoroutineRunner.Instance.Run(OpenRoutine(target.transform));
+        return true;
     }
 
     private IEnumerator OpenRoutine(Transform wallTransform)

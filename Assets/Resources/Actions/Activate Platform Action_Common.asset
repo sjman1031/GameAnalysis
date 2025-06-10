@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Activate Platform Action_Common
   m_EditorClassIdentifier: 
   type: 2
+  thisObject: 0

@@ -6,12 +6,12 @@ public class ActivateDashAction : InteractionAction
 {
     public eObjectType type = eObjectType.NULL;
 
-    public override void Execute(GameObject source, GameObject target)
+    public override bool Execute(GameObject source, GameObject target)
     {
         if (source.GetComponent<PlayerController>() == null)
         {
             Debug.LogWarning("ActivateDashAction: PlayerController가 없습니다.");
-            return;
+            return false;
         }
 
         if (type == eObjectType.Lucy)
@@ -20,8 +20,7 @@ public class ActivateDashAction : InteractionAction
             {
                 source.GetComponent<PlayerController>().canDash = true;
                 Debug.Log($"{source.name} Dash 활성화");
-                Destroy(this);
-                return;
+                return true;
             }
         }
         else if (type == eObjectType.Paul)
@@ -30,16 +29,16 @@ public class ActivateDashAction : InteractionAction
             {
                 source.GetComponent<PlayerController>().canDash = true;
                 Debug.Log($"{source.name} Dash 활성화");
-                Destroy(this);
-                return;
+                return true;
             }
         }
-        else
+        else if (type == eObjectType.Common) 
         {
             source.GetComponent<PlayerController>().canDash = true;
             Debug.Log($"{source.name} Dash 활성화");
-            Destroy(this);
-            return;
+            return true;
         }
+
+        return false;
     }
 }
