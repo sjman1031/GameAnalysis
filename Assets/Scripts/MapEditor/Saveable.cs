@@ -9,6 +9,7 @@ public class Saveable : MonoBehaviour
     public string id;
     public List<ConnectionEntry> connections;
 
+    public bool isTriggered = false;
     public bool isSaveable = true;
 
     private void Reset()
@@ -28,7 +29,11 @@ public class Saveable : MonoBehaviour
                 continue;
             }
 
-            entry.action.Execute(collision.gameObject, entry.target.gameObject);
+            if (!isTriggered)
+            {
+                entry.action.Execute(collision.gameObject, entry.target.gameObject);
+                isTriggered = true;
+            }
         }
     }
 
