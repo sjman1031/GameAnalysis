@@ -11,12 +11,6 @@ public class CameraMovement : MonoBehaviour
     public float smoothTime = 0.25f;
     private Vector3 velocity = Vector3.zero;
 
-    private void Awake()
-    {
-        player1 = GameObject.Find("Lucy").transform;
-        player2 = GameObject.Find("Paul").transform;
-    }
-
     private void LateUpdate()
     {
         if (player1 == null) player1 = GameObject.Find("Lucy").transform;

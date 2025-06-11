@@ -15,6 +15,7 @@ TagManager:
   - Paul
   - Dash
   - Extend
+  - GameManager
   layers:
   - Default
   - TransparentFX

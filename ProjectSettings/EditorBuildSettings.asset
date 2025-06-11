@@ -6,6 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/ActualPlayScene/01_MainMenu.unity
+    guid: 80c350b00c2951b4eb7af7cdf522f542
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/02_MultiPlaySelect.unity
+    guid: a9aeca6a5002add49bddf787b7afec02
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/03_RoomCreate.unity
+    guid: 8817ab27283137647b79d1153f1c8f74
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/04_RoomJoin.unity
+    guid: f47a03865233279439ad992243ec0624
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/05_Lobby.unity
+    guid: cb6d5b61db72d7c45b0e5b035045a215
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/06_StageSelect.unity
+    guid: 0874aff88f7d2a848a845a43e2ddc7aa
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/07_GamePlay.unity
+    guid: bdd4c31af6edb2e40bd9b6ed1f896e05
+  - enabled: 1
+    path: Assets/Scenes/ActualPlayScene/08_StartCutScene.unity
+    guid: 4c3ef288c13ebbe468d3db49f6936993
   m_configObjects: {}

@@ -1,85 +1,68 @@
-using System.Collections;
+using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using UnityEngine.SceneManagement;
 
 public class MapClearData
 {
-    public int triedCount = 0;
-    public float clearTime = 0f;
+    public int triedCount;
+    public float clearTime;
+    public bool isCleared = false;
 }
 
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : MonoBehaviourPun
 {
-    private static GameManager _instance;
+    public Dictionary<string, List<MapClearData>> mapClearData
+        = new Dictionary<string, List<MapClearData>>();
 
-    public static GameManager Instance
+    private string currentMapName;
+    private float mapStartTime;
+    private Dictionary<string, int> tryCounts = new();
+
+
+    public void OnMapLoaded(string mapName)
     {
-        get
+        var history = GetClearHistory(mapName);
+    }
+
+    public void OnMapStart(string mapName)
+    {
+        currentMapName = mapName;
+        if (!tryCounts.ContainsKey(mapName))
+            tryCounts[mapName] = 0;
+        tryCounts[mapName]++;
+
+        mapStartTime = Time.time;
+    }
+
+    public void OnMapClear()
+    {
+        float clearTime = Time.time - mapStartTime;
+
+        if (!mapClearData.ContainsKey(currentMapName))
+            mapClearData[currentMapName] = new List<MapClearData>();
+
+        var record = new MapClearData
         {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<GameManager>();
+            triedCount = tryCounts[currentMapName],
+            clearTime = clearTime,
+            isCleared = true
+        };
 
-                Debug.LogError("GameManager 인스턴스가 존재하지 않습니다.");
-            }
+        mapClearData[currentMapName].Add(record);
 
-            return _instance;
-        }
+        string fileName = $"Stage_{currentMapName}.json";
+        DataManager.Instance.SaveData(mapClearData[currentMapName], fileName);
+
+        Debug.Log($"맵 '{currentMapName}' 클리어! 시도 {record.triedCount}회, 클리어 타임 {record.clearTime:F2}s");
     }
 
-
-    public Dictionary<string, List<MapClearData>> mapClearData = new Dictionary<string, List<MapClearData>>();
-
-    public bool onStage = false;
-
-
-    private void Awake()
+    public List<MapClearData> GetClearHistory(string mapName)
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if(_instance != this)
-            Destroy(gameObject);    
-    }
+        if (mapClearData.TryGetValue(mapName, out var history))
+            return history;
 
-    private void Start()
-    {
-        foreach (var pc in FindObjectsOfType<PlayerController>())
-        {
-            var pv = pc.GetComponent<PhotonView>();
-            if (PhotonNetwork.IsMasterClient && pc.name == "Lucy")
-            { 
-                if (!pv.IsMine) pc.enabled = false;
-            }
-            else if (!PhotonNetwork.IsMasterClient && pc.name == "Paul")
-            {
-                pc.enabled = false;
-            }
-        }
-    }
-
-    public void SaveStageClear()
-    {
-    }
-    
-    public void OnExitButton()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene("01_MainMenu");
-    }
-
-    private void Update()
-    {
-        if(onStage)
-
+        return new List<MapClearData>();
     }
 }
