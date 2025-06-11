@@ -11,11 +11,14 @@ public class MainMenuManager : MonoBehaviour
     {
         if (options == null)
             options = GameObject.Find("OptionUI");
-    }
 
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void OnNewButton() { Debug.Log("´º¹öÆ°"); }
     public void OnContinueButton() { }
     public void OnTogetherButton() { SceneManager.LoadScene("02_MultiPlaySelect"); }
-    public void OnOptionButton() { options.SetActive(true); }
     public void OnQuitButton() { Application.Quit(); }
+    public void OnOptionQuitButton() { options.SetActive(false); }
+    public void OnOptionButton() { options.SetActive(true); }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class MapClearData
 {
@@ -9,9 +11,10 @@ public class MapClearData
 }
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     private static GameManager _instance;
+
     public static GameManager Instance
     {
         get
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, List<MapClearData>> mapClearData = new Dictionary<string, List<MapClearData>>();
 
+    public bool onStage = false;
 
 
     private void Awake()
@@ -43,12 +47,39 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);    
     }
 
+    private void Start()
+    {
+        foreach (var pc in FindObjectsOfType<PlayerController>())
+        {
+            var pv = pc.GetComponent<PhotonView>();
+            if (PhotonNetwork.IsMasterClient && pc.name == "Lucy")
+            { 
+                if (!pv.IsMine) pc.enabled = false;
+            }
+            else if (!PhotonNetwork.IsMasterClient && pc.name == "Paul")
+            {
+                pc.enabled = false;
+            }
+        }
+    }
+
     public void SaveStageClear()
     {
+    }
+    
+    public void OnExitButton()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("01_MainMenu");
     }
 
     private void Update()
     {
-        
+        if(onStage)
+
     }
 }

@@ -109,12 +109,6 @@ public class PlayerController : MonoBehaviour
             //Debug.Log($"{this.name} otherPlayer: {otherPlayer.name}");
         }
 
-        if(networkState == eNetworkState.OnLine)
-        {
-            if (PhotonNetwork.IsMasterClient && this.name != "Lucy") return;
-            if (!PhotonNetwork.IsMasterClient && this.name != "Paul") return; 
-        }
-
         if (!IsSwingState())
         {
             Move();
